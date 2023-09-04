@@ -1,10 +1,13 @@
 package com.varukha.onlinebookstore.service;
 
-import com.varukha.onlinebookstore.model.Book;
+import com.varukha.onlinebookstore.dto.BookDto;
+import com.varukha.onlinebookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto book);
 
-    List<Book> findAll();
+    List<BookDto> getAll();
+
+    BookDto getBookById(Long id);
 }

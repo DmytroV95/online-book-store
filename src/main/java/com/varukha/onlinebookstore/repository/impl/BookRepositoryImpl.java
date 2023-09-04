@@ -3,11 +3,12 @@ package com.varukha.onlinebookstore.repository.impl;
 import com.varukha.onlinebookstore.exception.DataProcessingException;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.BookRepository;
-import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,14 +45,24 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaQuery<Book> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Book.class);
-            criteriaQuery.from(Book.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query<Book> query = session.createQuery("FROM Book", Book.class);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all books", e);
+            throw new DataProcessingException("Can't get all books from DB", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findBookById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Book> query = session.createQuery("FROM Book b "
+                    + "WHERE b.id = :id", Book.class);
+            query.setParameter("id", id);
+            return query.uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find book by id: " + id, e);
         }
     }
 }
