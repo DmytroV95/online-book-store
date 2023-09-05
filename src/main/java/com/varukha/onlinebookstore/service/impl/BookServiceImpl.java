@@ -8,17 +8,14 @@ import com.varukha.onlinebookstore.repository.BookRepository;
 import com.varukha.onlinebookstore.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-
-    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
-        this.bookRepository = bookRepository;
-        this.bookMapper = bookMapper;
-    }
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {

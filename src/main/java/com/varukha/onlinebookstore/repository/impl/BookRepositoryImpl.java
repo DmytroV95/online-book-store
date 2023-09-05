@@ -57,10 +57,8 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Optional<Book> findBookById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Book> query = session.createQuery("FROM Book b "
-                    + "WHERE b.id = :id", Book.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            Book bookById = session.get(Book.class, id);
+            return Optional.ofNullable(bookById);
         } catch (Exception e) {
             throw new DataProcessingException("Can't find book by id: " + id, e);
         }
