@@ -1,6 +1,7 @@
 package com.varukha.onlinebookstore.service;
 
 import com.varukha.onlinebookstore.dto.BookDto;
+import com.varukha.onlinebookstore.dto.BookSearchParametersDto;
 import com.varukha.onlinebookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
@@ -9,5 +10,11 @@ public interface BookService {
 
     List<BookDto> getAll();
 
-    BookDto getBookById(Long id);
+    BookDto getById(Long id);
+
+    void deleteById(Long id);
+
+    BookDto update(Long id, CreateBookRequestDto bookRequestDto);
+
+    List<BookDto> search(BookSearchParametersDto params);
 }
