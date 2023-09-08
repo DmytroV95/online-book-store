@@ -23,7 +23,9 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
         return spec;
     }
 
-    private Specification<Book> getBookSpecification(String[] searchParametersDto, Specification<Book> spec, String key) {
+    private Specification<Book> getBookSpecification(String[] searchParametersDto,
+                                                     Specification<Book> spec,
+                                                     String key) {
         if (searchParametersDto != null && searchParametersDto.length > 0) {
             spec = spec.and(bookSpecificationProviderManager.getSpecificationProvider(key)
                     .getSpecification(searchParametersDto));
