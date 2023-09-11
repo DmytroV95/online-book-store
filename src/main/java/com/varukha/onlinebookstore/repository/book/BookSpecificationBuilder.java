@@ -1,6 +1,6 @@
 package com.varukha.onlinebookstore.repository.book;
 
-import com.varukha.onlinebookstore.dto.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.SpecificationBuilder;
 import com.varukha.onlinebookstore.repository.SpecificationProviderManager;

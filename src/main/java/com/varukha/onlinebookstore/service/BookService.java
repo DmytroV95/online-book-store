@@ -1,8 +1,8 @@
 package com.varukha.onlinebookstore.service;
 
-import com.varukha.onlinebookstore.dto.BookDto;
-import com.varukha.onlinebookstore.dto.BookSearchParametersDto;
-import com.varukha.onlinebookstore.dto.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.BookDto;
+import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

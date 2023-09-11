@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/changes/04-create-role-table.yaml
   - include:
       file: db/changelog/changes/05-create-user-role-table.yaml
+  - include:
+      file: db/changelog/changes/06-add-roles-to-role-table.yaml

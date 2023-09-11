@@ -1,8 +1,8 @@
 package com.varukha.onlinebookstore.service.impl;
 
-import com.varukha.onlinebookstore.dto.BookDto;
-import com.varukha.onlinebookstore.dto.BookSearchParametersDto;
-import com.varukha.onlinebookstore.dto.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.BookDto;
+import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
 import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
@@ -15,8 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
