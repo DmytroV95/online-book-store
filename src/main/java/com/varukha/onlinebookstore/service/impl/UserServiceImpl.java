@@ -11,13 +11,11 @@ import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.role.RoleRepository;
 import com.varukha.onlinebookstore.repository.user.UserRepository;
 import com.varukha.onlinebookstore.service.UserService;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +26,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Override
-    public UserRegistrationResponseDto register(UserRegistrationRequestDto request) throws RegistrationException {
+    public UserRegistrationResponseDto register(UserRegistrationRequestDto request)
+            throws RegistrationException {
         if (userRepository.findUserByEmail(request.getEmail()).isPresent()) {
             throw new RegistrationException("Unable complete registration");
         }

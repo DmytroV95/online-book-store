@@ -42,8 +42,3 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-              - column:
-                  name: role
-                  type: varchar(255)
-                  constraints:
-                    nullable: false

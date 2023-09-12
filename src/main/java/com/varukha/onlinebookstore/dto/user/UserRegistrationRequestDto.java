@@ -1,14 +1,16 @@
 package com.varukha.onlinebookstore.dto.user;
 
+import com.varukha.onlinebookstore.validation.Email;
+import com.varukha.onlinebookstore.validation.FieldMatch;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@FieldMatch
 public class UserRegistrationRequestDto {
-    @NotNull
-    @NotBlank
+    @Email
     @Length(min = 4, max = 50)
     private String email;
     @NotNull
@@ -18,7 +20,7 @@ public class UserRegistrationRequestDto {
     @NotNull
     @NotBlank
     @Length(min = 6, max = 100)
-    private String repeatPassword ;
+    private String repeatPassword;
     @NotNull
     @NotBlank
     @Length(min = 2, max = 50)

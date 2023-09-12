@@ -15,5 +15,4 @@ public class UserLoginRequestDto {
     @NotBlank
     @Length(min = 6, max = 100)
     private String password;
-
 }

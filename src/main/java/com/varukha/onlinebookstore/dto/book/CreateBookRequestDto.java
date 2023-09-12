@@ -22,7 +22,6 @@ public class CreateBookRequestDto {
     @NotNull
     @NotBlank
     @ISBN
-    @Length(min = 13, max = 13)
     private String isbn;
     @NotNull
     @Min(0)
