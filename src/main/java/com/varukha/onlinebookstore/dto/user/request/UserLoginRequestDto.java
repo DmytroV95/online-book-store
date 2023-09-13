@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.dto.user;
+package com.varukha.onlinebookstore.dto.user.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.dto.user;
+package com.varukha.onlinebookstore.dto.user.request;
 
 import com.varukha.onlinebookstore.validation.Email;
 import com.varukha.onlinebookstore.validation.FieldMatch;

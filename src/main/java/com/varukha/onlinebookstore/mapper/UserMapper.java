@@ -1,8 +1,8 @@
 package com.varukha.onlinebookstore.mapper;
 
 import com.varukha.onlinebookstore.config.MapperConfig;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationResponseDto;
+import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserRegistrationResponseDto;
 import com.varukha.onlinebookstore.model.User;
 import org.mapstruct.Mapper;
 

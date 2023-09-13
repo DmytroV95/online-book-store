@@ -1,9 +1,11 @@
 package com.varukha.onlinebookstore.service.book;
 
-import com.varukha.onlinebookstore.dto.book.BookDto;
-import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
-import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
+import com.varukha.onlinebookstore.dto.book.request.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
 import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
@@ -18,4 +20,6 @@ public interface BookService {
     BookDto update(Long id, CreateBookRequestDto bookRequestDto);
 
     List<BookDto> search(BookSearchParametersDto params);
+
+    List<BookDtoWithoutCategoryId> getByCategoryId(Long id);
 }

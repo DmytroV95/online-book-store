@@ -6,6 +6,7 @@ import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
 import com.varukha.onlinebookstore.service.category.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getById(Long id) {
-        return null;
+        Category category = categoryRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't find category by id: " + id)
+        );
+        return categoryMapper.toDto(category);
     }
 
     @Override
@@ -39,11 +43,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto update(Long id, CategoryDto categoryDto) {
-        return null;
+        Category updatedCategory = categoryMapper.toModel(categoryDto);
+        updatedCategory.setId(id);
+        return categoryMapper.toDto(categoryRepository.save(updatedCategory));
     }
 
     @Override
     public void deleteById(Long id) {
-
+        categoryRepository.deleteById(id);
     }
 }

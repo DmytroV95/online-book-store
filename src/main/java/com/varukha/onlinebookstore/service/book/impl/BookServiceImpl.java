@@ -1,8 +1,9 @@
 package com.varukha.onlinebookstore.service.book.impl;
 
-import com.varukha.onlinebookstore.dto.book.BookDto;
-import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
-import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
+import com.varukha.onlinebookstore.dto.book.request.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
 import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
@@ -30,7 +31,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getAll(Pageable pageable) {
-        return bookRepository.findAll(pageable)
+        return bookRepository.findAllWithCategory(pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
@@ -38,7 +39,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getById(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(
+        Book book = bookRepository.findByIdWithCategory(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find book by id: " + id)
         );
         return bookMapper.toDto(book);
@@ -65,4 +66,10 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Override
+    public List<BookDtoWithoutCategoryId> getByCategoryId(Long id) {
+        return bookRepository.findAllByCategoryId(id).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
+    }
 }

@@ -2,8 +2,8 @@ package com.varukha.onlinebookstore.service.user.impl;
 
 import static com.varukha.onlinebookstore.model.Role.RoleName.ROLE_USER;
 
-import com.varukha.onlinebookstore.dto.user.UserRegistrationRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationResponseDto;
+import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserRegistrationResponseDto;
 import com.varukha.onlinebookstore.exception.RegistrationException;
 import com.varukha.onlinebookstore.mapper.UserMapper;
 import com.varukha.onlinebookstore.model.Role;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.dto.user;
+package com.varukha.onlinebookstore.dto.user.response;
 
 import lombok.Data;
 
