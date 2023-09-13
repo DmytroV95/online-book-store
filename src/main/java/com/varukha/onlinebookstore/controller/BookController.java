@@ -3,7 +3,8 @@ package com.varukha.onlinebookstore.controller;
 import com.varukha.onlinebookstore.dto.book.BookDto;
 import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
 import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
-import com.varukha.onlinebookstore.service.BookService;
+import com.varukha.onlinebookstore.model.Book;
+import com.varukha.onlinebookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -77,5 +78,9 @@ public class BookController {
             description = "Search a book by input parameters")
     public List<BookDto> search(BookSearchParametersDto searchParameters) {
         return bookService.search(searchParameters);
+    }
+
+    public List<Book> getBooksByCategoryId(Long id) {
+        return null;
     }
 }

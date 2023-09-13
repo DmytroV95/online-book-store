@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.impl;
+package com.varukha.onlinebookstore.service.book.impl;
 
 import com.varukha.onlinebookstore.dto.book.BookDto;
 import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
@@ -7,7 +7,7 @@ import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
-import com.varukha.onlinebookstore.service.BookService;
+import com.varukha.onlinebookstore.service.book.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service;
+package com.varukha.onlinebookstore.service.book;
 
 import com.varukha.onlinebookstore.dto.book.BookDto;
 import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
