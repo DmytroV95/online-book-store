@@ -32,12 +32,15 @@ public class CategoryController {
     public List<CategoryDto> getAll(Pageable pageable) {
         return categoryService.getAll(pageable);
     }
+
     public CategoryDto getCategoryById(Long id) {
         return null;
     }
+
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
         return null;
     }
+
     public void deleteCategory(Long id) {
 
     }
