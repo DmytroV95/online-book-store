@@ -24,10 +24,13 @@ public class Category {
     private String name;
 
     @Column(nullable = false)
-    String description;
+    private String description;
 
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    public Category() {
+    }
 
     public Category(Long id) {
         this.id = id;

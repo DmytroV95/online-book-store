@@ -1,17 +1,15 @@
 package com.varukha.onlinebookstore.service.category.impl;
 
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
-import com.varukha.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
 import com.varukha.onlinebookstore.service.category.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

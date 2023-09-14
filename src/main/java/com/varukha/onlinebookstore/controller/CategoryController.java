@@ -2,11 +2,10 @@ package com.varukha.onlinebookstore.controller;
 
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
 import com.varukha.onlinebookstore.service.category.CategoryService;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -58,7 +57,7 @@ public class CategoryController {
     @Operation(summary = "Update the book category by id",
             description = "Update the existing book information by identification number")
     public CategoryDto update(@PathVariable Long id,
-                                      @Valid @RequestBody CategoryDto categoryDto) {
+                              @Valid @RequestBody CategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 

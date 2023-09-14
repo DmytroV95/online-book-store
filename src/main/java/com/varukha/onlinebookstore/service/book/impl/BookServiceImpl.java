@@ -1,15 +1,16 @@
 package com.varukha.onlinebookstore.service.book.impl;
 
-import com.varukha.onlinebookstore.dto.book.response.BookDto;
-import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
 import com.varukha.onlinebookstore.dto.book.request.BookSearchParametersDto;
 import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
 import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
 import com.varukha.onlinebookstore.service.book.BookService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -60,8 +61,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> search(BookSearchParametersDto params) {
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
-        return bookRepository.findAll(bookSpecification)
-                .stream()
+        List<Book> books = bookRepository.findAll(
+                Specification.where(bookSpecification)
+                        .and((root, query, criteriaBuilder) -> {
+                            root.fetch("categories", JoinType.LEFT);
+                            return criteriaBuilder.and();
+                        })
+        );
+        return books.stream()
                 .map(bookMapper::toDto)
                 .toList();
     }

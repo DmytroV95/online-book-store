@@ -1,8 +1,8 @@
 package com.varukha.onlinebookstore.controller;
 
 import com.varukha.onlinebookstore.dto.user.request.UserLoginRequestDto;
-import com.varukha.onlinebookstore.dto.user.response.UserLoginResponseDto;
 import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserLoginResponseDto;
 import com.varukha.onlinebookstore.dto.user.response.UserRegistrationResponseDto;
 import com.varukha.onlinebookstore.exception.RegistrationException;
 import com.varukha.onlinebookstore.security.AuthenticationService;

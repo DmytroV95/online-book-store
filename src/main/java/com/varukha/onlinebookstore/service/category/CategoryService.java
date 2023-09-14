@@ -1,11 +1,8 @@
 package com.varukha.onlinebookstore.service.category;
 
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
-import com.varukha.onlinebookstore.dto.category.CreateCategoryRequestDto;
-import com.varukha.onlinebookstore.model.Category;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
     List<CategoryDto> getAll(Pageable pageable);

@@ -1,13 +1,11 @@
 package com.varukha.onlinebookstore.dto.book.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
-
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.Length;
@@ -25,8 +23,7 @@ public class CreateBookRequestDto {
     private String author;
     @NotNull
     @NotBlank
-//    @Schema(example = "948-3-16-148410-0")
-//    @ISBN
+    @ISBN
     private String isbn;
     @NotNull
     @Min(0)
