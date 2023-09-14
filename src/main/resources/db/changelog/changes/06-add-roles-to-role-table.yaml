@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-roles-to-role-table
+      author: Dmytro Varukha
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: 'ROLE_USER'
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: 'ROLE_ADMIN'

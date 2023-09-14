@@ -1,8 +1,8 @@
 package com.varukha.onlinebookstore.mapper;
 
 import com.varukha.onlinebookstore.config.MapperConfig;
-import com.varukha.onlinebookstore.dto.BookDto;
-import com.varukha.onlinebookstore.dto.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.BookDto;
+import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
 import com.varukha.onlinebookstore.model.Book;
 import org.mapstruct.Mapper;
 

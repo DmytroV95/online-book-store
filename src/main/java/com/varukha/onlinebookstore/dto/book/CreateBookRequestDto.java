@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.dto;
+package com.varukha.onlinebookstore.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +22,6 @@ public class CreateBookRequestDto {
     @NotNull
     @NotBlank
     @ISBN
-    @Length(min = 13, max = 13)
     private String isbn;
     @NotNull
     @Min(0)
