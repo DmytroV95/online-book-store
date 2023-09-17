@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-shopping-cart-table
+      author: Dmytro Varukha
+      changes:
+        - createTable:
+            tableName: shopping_cart
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: cart_item_id
+                  type: bigint
