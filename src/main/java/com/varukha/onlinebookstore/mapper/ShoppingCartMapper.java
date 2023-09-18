@@ -1,36 +1,26 @@
 package com.varukha.onlinebookstore.mapper;
 
-import com.varukha.onlinebookstore.dto.shoppingCart.CreateShoppingCartRequestDto;
-import com.varukha.onlinebookstore.dto.shoppingCart.ShoppingCartDto;
+import com.varukha.onlinebookstore.config.MapperConfig;
+import com.varukha.onlinebookstore.dto.shoppingcart.CreateShoppingCartRequestDto;
+import com.varukha.onlinebookstore.dto.shoppingcart.ShoppingCartDto;
 import com.varukha.onlinebookstore.model.CartItem;
 import com.varukha.onlinebookstore.model.ShoppingCart;
+import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MapperConfig;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import java.util.stream.Collectors;
-
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, uses = CartItemMapper.class)
 public interface ShoppingCartMapper {
+
+    @Mapping(source = "shoppingCart.user.id", target = "userId")
     ShoppingCartDto toDto(ShoppingCart shoppingCart);
 
-    ShoppingCart toModel(CreateShoppingCartRequestDto requestDto);
-
     @AfterMapping
-    default void setCartItemIds(@MappingTarget ShoppingCartDto shoppingCartDto,
-                                ShoppingCart shoppingCart) {
-        if (shoppingCart.getCartItems() != null) {
-            shoppingCartDto.setCartItemIds(shoppingCart.getCartItems().stream()
-                    .map(CartItem::getId)
-                    .collect(Collectors.toSet()));
-        }
-    }
-
-    @AfterMapping
-    default void setCartItem(@MappingTarget CreateShoppingCartRequestDto shoppingCartRequestDto,
-                             ShoppingCart shoppingCart) {
-        shoppingCart.setCartItems(shoppingCartRequestDto.getCartItemIds().stream()
+    default void setCartItems(@MappingTarget ShoppingCart shoppingCart,
+                              CreateShoppingCartRequestDto shoppingCartDto) {
+        shoppingCart.setCartItems(shoppingCartDto.getCartItems().stream()
                 .map(CartItem::new)
                 .collect(Collectors.toSet()));
     }

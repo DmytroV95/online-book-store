@@ -1,12 +1,12 @@
-package com.varukha.onlinebookstore.dto.shoppingCart;
+package com.varukha.onlinebookstore.dto.shoppingcart;
 
-import com.varukha.onlinebookstore.model.CartItem;
-import lombok.Data;
-
+import com.varukha.onlinebookstore.dto.cartitem.CartItemDto;
 import java.util.Set;
+import lombok.Data;
 
 @Data
 public class ShoppingCartDto {
+    private Long id;
     private Long userId;
-    private Set<Long> cartItemIds;
+    private Set<CartItemDto> cartItems;
 }

@@ -53,7 +53,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 new String[]{ exception.getMessage()}
-//                new String[]{ "Oops something wrong!"}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
