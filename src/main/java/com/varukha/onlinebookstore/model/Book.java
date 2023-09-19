@@ -46,7 +46,7 @@ public class Book {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Column(nullable = false)
     @JoinTable(name = "book_category",
             joinColumns = @JoinColumn(name = "book_id"),
