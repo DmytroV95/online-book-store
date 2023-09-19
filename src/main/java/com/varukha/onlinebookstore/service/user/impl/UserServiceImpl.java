@@ -73,6 +73,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void createShoppingCart(User user) {
-        shoppingCartService.create(user);
+        shoppingCartService.createShoppingCart(user);
     }
 }

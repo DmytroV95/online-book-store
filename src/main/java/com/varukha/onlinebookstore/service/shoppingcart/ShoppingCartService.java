@@ -8,9 +8,9 @@ import com.varukha.onlinebookstore.model.CartItem;
 import com.varukha.onlinebookstore.model.User;
 
 public interface ShoppingCartService {
-    void create(User user);
+    void createShoppingCart(User user);
 
-    CartItemDto save(CreateCartItemRequestDto requestDto);
+    CartItemDto createCartItem(CreateCartItemRequestDto requestDto);
 
     CartItem getCartItemById(Long id);
 

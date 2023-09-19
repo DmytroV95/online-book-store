@@ -29,7 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final BookRepository bookRepository;
 
     @Override
-    public void create(User user) {
+    public void createShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartRepository.save(shoppingCart);
@@ -37,7 +37,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Transactional
     @Override
-    public CartItemDto save(CreateCartItemRequestDto requestDto) {
+    public CartItemDto createCartItem(CreateCartItemRequestDto requestDto) {
         CartItem existedCartItem = getCartItemByBookId(requestDto.getBookId());
         if (existedCartItem == null || !existedCartItem.getBook().getId()
                 .equals(requestDto.getBookId())) {
@@ -69,8 +69,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public CartItemDto updateCartItemQuantity(Long id,
                                               UpdateCartItemRequestDto cartItemRequestDto) {
         CartItem cartItemById = getCartItemById(id);
-        int requestedQuantity = cartItemRequestDto.getQuantity();
-        cartItemById.setQuantity(requestedQuantity);
+        cartItemById.setQuantity(cartItemRequestDto.getQuantity());
         CartItem savedCartItem = cartItemRepository.save(cartItemById);
         return cartItemMapper.toDto(savedCartItem);
     }

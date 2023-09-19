@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class CreateCartItemRequestDto {
+    @NotNull
+    @Min(1)
     private Long bookId;
     @NotNull
     @Min(0)

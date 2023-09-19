@@ -34,7 +34,7 @@ public class ShoppingCartController {
     @Operation(summary = "Save the new cart item",
             description = "Save the new cart item to shopping cart")
     public CartItemDto saveCartItem(@RequestBody @Valid CreateCartItemRequestDto requestDto) {
-        return shoppingCartService.save(requestDto);
+        return shoppingCartService.createCartItem(requestDto);
     }
 
     @GetMapping("/{id}")
