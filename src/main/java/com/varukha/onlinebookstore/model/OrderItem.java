@@ -18,9 +18,9 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE order_item SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE orders_item SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted=false")
-@Table(name = "order_item")
+@Table(name = "orders_item")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +41,11 @@ public class OrderItem {
 
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    public OrderItem() {
+    }
+
+    public OrderItem(Long id) {
+        this.id = id;
+    }
 }

@@ -24,9 +24,9 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE 'order' SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true WHERE id = ?")
 @Where(clause = "is_deleted=false")
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +50,7 @@ public class Order {
     private String shippingAddress;
 
     @OneToMany(mappedBy = "order",
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @Column(nullable = false)
