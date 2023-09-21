@@ -1,7 +1,7 @@
 package com.varukha.onlinebookstore.exception;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -46,11 +46,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    protected ResponseEntity<Object> handleAllErrors(RuntimeException exception) {
+
+    @ExceptionHandler(RuntimeException.class)
+    protected ResponseEntity<Object> handleAllErrors() {
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                new String[]{ exception.getMessage()}
+                new String[]{"Oops something wrong"}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
