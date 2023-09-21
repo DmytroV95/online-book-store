@@ -1,9 +1,10 @@
 package com.varukha.onlinebookstore.controller;
 
-import com.varukha.onlinebookstore.dto.book.BookDto;
-import com.varukha.onlinebookstore.dto.book.BookSearchParametersDto;
-import com.varukha.onlinebookstore.dto.book.CreateBookRequestDto;
-import com.varukha.onlinebookstore.service.BookService;
+import com.varukha.onlinebookstore.dto.book.request.BookSearchParametersDto;
+import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDto;
+import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
+import com.varukha.onlinebookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Book management", description = "Endpoints for managing books")
-@RequiredArgsConstructor
+@Tag(name = "Book management",
+        description = "Endpoints for managing books")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/books")
 public class BookController {
     private final BookService bookService;
@@ -40,7 +42,7 @@ public class BookController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get the book by id",
-            description = "Get the existed book by identification number")
+            description = "Get the existing book by identification number")
     public BookDto getById(@PathVariable Long id) {
         return bookService.getById(id);
     }
@@ -57,7 +59,7 @@ public class BookController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Delete the book by id",
-            description = "Delete the existed book by identification number")
+            description = "Delete the existing book by identification number")
     public void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
@@ -65,7 +67,7 @@ public class BookController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update the book by id",
-            description = "Update the existed book information by identification number")
+            description = "Update the existing book information by identification number")
     public BookDto update(@PathVariable Long id,
                           @Valid @RequestBody CreateBookRequestDto bookRequestDto) {
         return bookService.update(id, bookRequestDto);
@@ -75,7 +77,15 @@ public class BookController {
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get a book by searching parameters",
             description = "Search a book by input parameters")
-    public List<BookDto> search(BookSearchParametersDto searchParameters) {
-        return bookService.search(searchParameters);
+    public List<BookDto> search(Pageable pageable, BookSearchParametersDto searchParameters) {
+        return bookService.search(pageable, searchParameters);
+    }
+
+    @GetMapping("/{id}/books")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @Operation(summary = "Get all books by category id",
+            description = "Get all existing books by book categories identification number")
+    public List<BookDtoWithoutCategoryId> getByCategoryId(@PathVariable Long id) {
+        return bookService.getByCategoryId(id);
     }
 }

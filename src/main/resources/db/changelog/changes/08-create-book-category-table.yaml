@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-book-category-table
+      author: Dmytro Varukha
+      changes:
+        - createTable:
+            tableName: book_category
+            columns:
+              - column:
+                  name: book_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    foreignKeyName: fk_book_category_book_id
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_book_category_category_id
+                    primaryKey: true
+                    nullable: false

@@ -1,7 +1,7 @@
 package com.varukha.onlinebookstore.security;
 
-import com.varukha.onlinebookstore.dto.user.UserLoginRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserLoginResponseDto;
+import com.varukha.onlinebookstore.dto.user.request.UserLoginRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserLoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

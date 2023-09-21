@@ -1,16 +1,16 @@
-package com.varukha.onlinebookstore.service.impl;
+package com.varukha.onlinebookstore.service.user.impl;
 
 import static com.varukha.onlinebookstore.model.Role.RoleName.ROLE_USER;
 
-import com.varukha.onlinebookstore.dto.user.UserRegistrationRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationResponseDto;
+import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserRegistrationResponseDto;
 import com.varukha.onlinebookstore.exception.RegistrationException;
 import com.varukha.onlinebookstore.mapper.UserMapper;
 import com.varukha.onlinebookstore.model.Role;
 import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.role.RoleRepository;
 import com.varukha.onlinebookstore.repository.user.UserRepository;
-import com.varukha.onlinebookstore.service.UserService;
+import com.varukha.onlinebookstore.service.user.UserService;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;

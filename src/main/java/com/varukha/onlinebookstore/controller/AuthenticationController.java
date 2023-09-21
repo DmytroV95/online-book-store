@@ -1,12 +1,12 @@
 package com.varukha.onlinebookstore.controller;
 
-import com.varukha.onlinebookstore.dto.user.UserLoginRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserLoginResponseDto;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationRequestDto;
-import com.varukha.onlinebookstore.dto.user.UserRegistrationResponseDto;
+import com.varukha.onlinebookstore.dto.user.request.UserLoginRequestDto;
+import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.response.UserLoginResponseDto;
+import com.varukha.onlinebookstore.dto.user.response.UserRegistrationResponseDto;
 import com.varukha.onlinebookstore.exception.RegistrationException;
 import com.varukha.onlinebookstore.security.AuthenticationService;
-import com.varukha.onlinebookstore.service.UserService;
+import com.varukha.onlinebookstore.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

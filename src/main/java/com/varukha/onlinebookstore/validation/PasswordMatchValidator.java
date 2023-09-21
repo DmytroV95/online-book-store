@@ -1,6 +1,6 @@
 package com.varukha.onlinebookstore.validation;
 
-import com.varukha.onlinebookstore.dto.user.UserRegistrationRequestDto;
+import com.varukha.onlinebookstore.dto.user.request.UserRegistrationRequestDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

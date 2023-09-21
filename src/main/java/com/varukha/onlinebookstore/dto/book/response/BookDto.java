@@ -1,5 +1,7 @@
-package com.varukha.onlinebookstore.dto.book;
+package com.varukha.onlinebookstore.dto.book.response;
 
+import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Data;
 
 @Data
@@ -8,7 +10,8 @@ public class BookDto {
     private String title;
     private String author;
     private String isbn;
-    private String price;
+    private BigDecimal price;
     private String description;
     private String coverImage;
+    private Set<Long> categoriesId;
 }

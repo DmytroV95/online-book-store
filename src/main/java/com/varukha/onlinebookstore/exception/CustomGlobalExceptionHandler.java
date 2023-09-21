@@ -16,10 +16,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String TIMESTAMP = "timestamp";
-    private static final String STATUS_CODE = "status";
-    private static final String ERRORS = "errors";
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -51,11 +47,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<Object> handleAllErrors() {
+    protected ResponseEntity<Object> handleAllErrors(RuntimeException exception) {
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                new String[]{ "Oops something wrong!"}
+                new String[]{ exception.getMessage()}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
