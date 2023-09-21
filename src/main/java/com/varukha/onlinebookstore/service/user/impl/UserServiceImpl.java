@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = createUser(request);
         User savedUser = userRepository.save(user);
-        createShoppingCart(savedUser);
+        shoppingCartService.createShoppingCartForUser(user);
         return userMapper.toUserResponse(savedUser);
     }
 
@@ -58,9 +58,5 @@ public class UserServiceImpl implements UserService {
         return roleRepository.findByName(ROLE_USER)
                 .orElseThrow(() -> new NoSuchElementException("The role "
                         + ROLE_USER + " is not found in the database"));
-    }
-
-    private void createShoppingCart(User user) {
-        shoppingCartService.createShoppingCart(user);
     }
 }

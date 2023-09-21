@@ -10,6 +10,6 @@ public class CreateCartItemRequestDto {
     @Min(1)
     private Long bookId;
     @NotNull
-    @Min(0)
+    @Min(1)
     private Integer quantity;
 }

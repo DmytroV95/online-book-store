@@ -4,15 +4,12 @@ import com.varukha.onlinebookstore.dto.cartitem.CartItemDto;
 import com.varukha.onlinebookstore.dto.cartitem.CreateCartItemRequestDto;
 import com.varukha.onlinebookstore.dto.cartitem.UpdateCartItemRequestDto;
 import com.varukha.onlinebookstore.dto.shoppingcart.ShoppingCartDto;
-import com.varukha.onlinebookstore.model.CartItem;
 import com.varukha.onlinebookstore.model.User;
 
 public interface ShoppingCartService {
-    void createShoppingCart(User user);
+    void createShoppingCartForUser(User user);
 
     CartItemDto createCartItem(CreateCartItemRequestDto requestDto);
-
-    CartItem getCartItemById(Long id);
 
     ShoppingCartDto getShoppingCartByUserId(Long id);
 
