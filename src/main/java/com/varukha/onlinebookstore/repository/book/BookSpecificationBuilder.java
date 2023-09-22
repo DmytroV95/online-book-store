@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
     public static final String TITLE_KEY = "title";
     public static final String AUTHOR_KEY = "author";
+    public static final String CATEGORIES_ID_KEY = "categoriesId";
     private final SpecificationProviderManager<Book> bookSpecificationProviderManager;
 
     @Override
@@ -20,6 +21,7 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
         Specification<Book> spec = Specification.where(null);
         spec = getBookSpecification(searchParametersDto.titles(), spec, TITLE_KEY);
         spec = getBookSpecification(searchParametersDto.authors(), spec, AUTHOR_KEY);
+        spec = getBookSpecification(searchParametersDto.categories(), spec, CATEGORIES_ID_KEY);
         return spec;
     }
 

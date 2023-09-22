@@ -12,3 +12,4 @@ There is a list of all entities that presented in the project:
  - Order: Represents an order placed by a user.
  - OrderItem: Represents an item in a user's order.
 
+

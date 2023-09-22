@@ -17,6 +17,7 @@ databaseChangeLog:
                   name: book_id
                   type: bigint
                   constraints:
+                    foreignKeyName: fk_cart_item_book_id
                     nullable: false
               - column:
                   name: quantity
@@ -25,4 +26,5 @@ databaseChangeLog:
                   name: shopping_cart_id
                   type: bigint
                   constraints:
+                    foreignKeyName: fk_cart_item_shopping_cart_id
                     nullable: false

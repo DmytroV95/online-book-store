@@ -52,7 +52,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                new String[]{ exception.getMessage()}
+                new String[]{"Oops something wrong"}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -63,7 +63,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND,
-                new String[]{ exception.getMessage()}
+                new String[]{exception.getMessage()}
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

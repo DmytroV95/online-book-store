@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = createUser(request);
         User savedUser = userRepository.save(user);
-        createShoppingCart(savedUser);
+        shoppingCartService.createShoppingCartForUser(user);
         return userMapper.toUserResponse(savedUser);
     }
 
@@ -70,9 +70,5 @@ public class UserServiceImpl implements UserService {
                 () -> new UsernameNotFoundException("Can't find a user by provided email "
                         + authentication.getName())
         );
-    }
-
-    private void createShoppingCart(User user) {
-        shoppingCartService.create(user);
     }
 }

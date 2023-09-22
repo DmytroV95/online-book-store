@@ -10,7 +10,6 @@ import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
 import com.varukha.onlinebookstore.service.book.BookService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -59,16 +58,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParametersDto params) {
+    public List<BookDto> search(Pageable pageable, BookSearchParametersDto params) {
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
-        List<Book> books = bookRepository.findAll(
-                Specification.where(bookSpecification)
-                        .and((root, query, criteriaBuilder) -> {
-                            root.fetch("categories", JoinType.LEFT);
-                            return criteriaBuilder.and();
-                        })
-        );
-        return books.stream()
+        return bookRepository.findAll(bookSpecification, pageable)
+                .stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
