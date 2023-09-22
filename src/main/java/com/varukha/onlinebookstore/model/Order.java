@@ -12,10 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -50,7 +50,7 @@ public class Order {
     private String shippingAddress;
 
     @OneToMany(mappedBy = "order",
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @Column(nullable = false)

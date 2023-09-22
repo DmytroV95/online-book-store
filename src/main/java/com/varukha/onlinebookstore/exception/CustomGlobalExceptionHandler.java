@@ -57,6 +57,17 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleAllErrors(
+            EntityNotFoundException exception) {
+        ErrorResponseDto response = new ErrorResponseDto(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND,
+                new String[]{ exception.getMessage()}
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError) {
             String field = ((FieldError) e).getField();
