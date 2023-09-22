@@ -47,11 +47,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<Object> handleAllErrors(RuntimeException exception) {
+    protected ResponseEntity<Object> handleAllErrors() {
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                new String[]{ exception.getMessage()}
+                new String[]{"Oops something wrong"}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
