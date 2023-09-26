@@ -10,11 +10,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "cart_item")
 public class CartItem {
     @Id
@@ -34,8 +36,5 @@ public class CartItem {
 
     public CartItem(Long id) {
         this.id = id;
-    }
-
-    public CartItem() {
     }
 }

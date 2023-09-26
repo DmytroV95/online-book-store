@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface OrderItemsMapper {
-    @Mapping(target = "bookId", source = "orderItem.book.id")
+    @Mapping(target = "bookId", source = "book.id")
     OrderItemDto toDto(OrderItem orderItem);
 
-    @Mapping(target = "price", source = "cartItem.book.price")
+    @Mapping(target = "price", source = "book.price")
     OrderItem toModel(CartItem cartItem);
 }
