@@ -40,6 +40,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get the book by id",
             description = "Get the existing book by identification number")
@@ -48,6 +49,7 @@ public class BookController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Save the new book",
             description = "Save the new book")
@@ -65,6 +67,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update the book by id",
             description = "Update the existing book information by identification number")
@@ -74,6 +77,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get a book by searching parameters",
             description = "Search a book by input parameters")
@@ -82,6 +86,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}/books")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get all books by category id",
             description = "Get all existing books by book categories identification number")

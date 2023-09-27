@@ -16,17 +16,26 @@ VALUES (1,
         16,
         'Description 4',
         'https://example.com/book-cover4.jpg',
+        false),
+
+       (3,
+        'Sample Book Title 2',
+        'Author 2',
+        '978-1334567892',
+        160,
+        'Description 2',
+        'https://example.com/book-cover2.jpg',
         false);
 
 INSERT INTO category (id, name, description, is_deleted)
-VALUES
-    (1, 'Science Fiction', 'Science Fiction category description', false),
-    (2, 'Mystery', 'Mystery category description', false);
+VALUES (1, 'Science Fiction', 'Science Fiction category description', false),
+       (2, 'Mystery', 'Mystery category description', false);
 
 
 INSERT INTO book_category (book_id, category_id)
 VALUES (1, 1),
-       (2, 2);
+       (2, 2),
+       (3, 2);
 
 
 
