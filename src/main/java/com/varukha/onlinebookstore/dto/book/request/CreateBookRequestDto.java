@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
-import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
@@ -23,7 +22,6 @@ public class CreateBookRequestDto {
     private String author;
     @NotNull
     @NotBlank
-//    @ISBN
     private String isbn;
     @NotNull
     @Min(0)

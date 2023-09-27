@@ -49,8 +49,6 @@ class BookRepositoryTest {
         mystery.setDescription("Mystery category description");
         mystery.setDeleted(false);
 
-        Long categoryId = 2L;
-
         Book firstBook = new Book();
         firstBook.setId(1L);
         firstBook.setTitle("Sample Book Title 3");
@@ -73,10 +71,22 @@ class BookRepositoryTest {
         secondBook.setCategories(Set.of(mystery));
         secondBook.setDeleted(false);
 
+        Book thirdBook = new Book();
+        thirdBook.setId(3L);
+        thirdBook.setTitle("Sample Book Title 2");
+        thirdBook.setAuthor("Author 2");
+        thirdBook.setIsbn("978-1334567892");
+        thirdBook.setPrice(BigDecimal.valueOf(160));
+        thirdBook.setDescription("Description 2");
+        thirdBook.setCoverImage("https://example.com/book-cover2.jpg");
+        thirdBook.setCategories(Set.of(mystery));
+        thirdBook.setDeleted(false);
+
+        Long categoryId = 2L;
         List<Book> actual = bookRepository.findAllByCategoryId(categoryId);
         assertNotNull(actual);
-        assertEquals(1, actual.size());
-        assertEquals(secondBook, actual.get(0));
+        assertEquals(2, actual.size());
+        assertTrue(actual.contains(secondBook) && actual.contains(thirdBook));
     }
 
     @Test
@@ -123,14 +133,28 @@ class BookRepositoryTest {
         secondBook.setCategories(Set.of(mystery));
         secondBook.setDeleted(false);
 
+        Book thirdBook = new Book();
+        thirdBook.setId(3L);
+        thirdBook.setTitle("Sample Book Title 2");
+        thirdBook.setAuthor("Author 2");
+        thirdBook.setIsbn("978-1334567892");
+        thirdBook.setPrice(BigDecimal.valueOf(160));
+        thirdBook.setDescription("Description 2");
+        thirdBook.setCoverImage("https://example.com/book-cover2.jpg");
+        thirdBook.setCategories(Set.of(mystery));
+        thirdBook.setDeleted(false);
+
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Book> books = bookRepository.findAllWithCategory(pageable);
         assertNotNull(books);
-        assertEquals(2, books.size());
-        assertTrue(books.contains(firstBook) && books.contains(secondBook));
+        assertEquals(3, books.size());
+        assertTrue(books.contains(firstBook)
+                && books.contains(secondBook)
+                && books.contains(thirdBook));
         assertEquals(books.get(0).getCategories(), firstBook.getCategories());
         assertEquals(books.get(1).getCategories(), secondBook.getCategories());
+        assertEquals(books.get(2).getCategories(), thirdBook.getCategories());
     }
 
     @Test

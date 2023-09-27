@@ -69,8 +69,7 @@ class CategoryServiceImplTest {
             Test the 'getById' method with valid request parameters
             for retrieving a book category by its ID.
             """)
-    void getById() {
-        Long categoryId = 1L;
+    void getById_ValidCategoryId_ReturnCategoryDto() {
         Category category = new Category();
         category.setId(1L);
         category.setName("Novel");
@@ -80,6 +79,7 @@ class CategoryServiceImplTest {
         categoryDto.setName(categoryDto.getName());
         categoryDto.setDescription(categoryDto.getDescription());
 
+        Long categoryId = 1L;
         when(categoryRepository.findById(categoryId))
                 .thenReturn(Optional.of(category));
         when(categoryMapper.toDto(category)).thenReturn(categoryDto);
@@ -138,7 +138,6 @@ class CategoryServiceImplTest {
             to update book category data by ID
             """)
     void update_ValidCategoryDtoRequestData_ReturnCategoryDto() {
-        Long categoryId = 1L;
         Category category = new Category();
         category.setId(1L);
         category.setName("Novel");
@@ -156,8 +155,8 @@ class CategoryServiceImplTest {
         when(categoryRepository.save(updatedCategory)).thenReturn(updatedCategory);
         when(categoryMapper.toDto(updatedCategory)).thenReturn(categoryDto);
 
+        Long categoryId = 1L;
         CategoryDto result = categoryService.update(categoryId, categoryDto);
-
         assertNotNull(result);
         assertEquals(categoryDto, result);
     }

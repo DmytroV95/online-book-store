@@ -134,7 +134,6 @@ class BookServiceImplTest {
             to retrieve a book by its ID
             """)
     void getById_ValidBookId_ShouldReturnValidBookData() {
-        Long bookId = 1L;
         Book book = new Book();
         book.setId(1L);
         book.setTitle("Sample Book Title");
@@ -152,6 +151,8 @@ class BookServiceImplTest {
         bookDto.setPrice(book.getPrice());
         bookDto.setDescription(book.getDescription());
         bookDto.setCoverImage(book.getCoverImage());
+
+        Long bookId = 1L;
 
         when(bookRepository.findByIdWithCategory(bookId))
                 .thenReturn(Optional.of(book));
@@ -198,7 +199,6 @@ class BookServiceImplTest {
             to update book data by ID
             """)
     void update_ValidCreateBookRequestDto_ReturnBookDto() {
-        Long bookId = 1L;
         CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
         bookRequestDto.setTitle("Sample Book Title");
         bookRequestDto.setAuthor("John Doe");
@@ -229,6 +229,7 @@ class BookServiceImplTest {
         when(bookRepository.save(updatedBook)).thenReturn(updatedBook);
         when(bookMapper.toDto(updatedBook)).thenReturn(bookDto);
 
+        Long bookId = 1L;
         BookDto result = bookService.update(bookId, bookRequestDto);
 
         assertNotNull(result);
@@ -241,12 +242,6 @@ class BookServiceImplTest {
             The method should return all books matching the specified input parameters
             """)
     void search_ValidParameters() {
-        BookSearchParametersDto bookSearchParametersDto = new BookSearchParametersDto(
-                new String[]{"Sample Book Title", "The Great Gatsby"},
-                new String[]{"John Doe", "F. Scott Fitzgerald"},
-                new String[]{"1"}
-        );
-
         Book book = new Book();
         book.setId(1L);
         book.setTitle("Sample Book Title");
@@ -264,6 +259,12 @@ class BookServiceImplTest {
         bookDto.setPrice(book.getPrice());
         bookDto.setDescription(book.getDescription());
         bookDto.setCoverImage(book.getCoverImage());
+
+        BookSearchParametersDto bookSearchParametersDto = new BookSearchParametersDto(
+                new String[]{"Sample Book Title", "The Great Gatsby"},
+                new String[]{"John Doe", "F. Scott Fitzgerald"},
+                new String[]{"1"}
+        );
 
         when(bookSpecificationBuilder.build(bookSearchParametersDto))
                 .thenReturn(bookSpecification);
@@ -286,8 +287,6 @@ class BookServiceImplTest {
             The method should return all books matching the specified book category ID
             """)
     void getByCategoryId_ValidCategoryId_ReturnBookDtoWithoutCategoryId() {
-        Long categoryId = 1L;
-
         Book book = new Book();
         book.setId(1L);
         book.setTitle("Sample Book Title");
@@ -306,6 +305,7 @@ class BookServiceImplTest {
         bookDtoWithoutCategoryId.setDescription(book.getDescription());
         bookDtoWithoutCategoryId.setCoverImage(book.getCoverImage());
 
+        Long categoryId = 1L;
         List<Book> books = Collections.singletonList(book);
         List<BookDtoWithoutCategoryId> bookDtoList = Collections
                 .singletonList(bookDtoWithoutCategoryId);

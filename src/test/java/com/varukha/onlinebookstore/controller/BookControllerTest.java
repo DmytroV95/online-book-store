@@ -15,12 +15,12 @@ import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
 import com.varukha.onlinebookstore.dto.book.response.BookDto;
 import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
@@ -58,7 +58,8 @@ class BookControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource("database/book/add-book-and-categories-to-their-tables.sql")
+                    new ClassPathResource(
+                            "database/book/add-book-and-categories-to-their-tables.sql")
             );
         }
     }
@@ -76,7 +77,8 @@ class BookControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource("database/book/remove-books-and-categories-from-tables.sql")
+                    new ClassPathResource(
+                            "database/book/remove-books-and-categories-from-tables.sql")
             );
         }
     }
@@ -88,67 +90,67 @@ class BookControllerTest {
             and pagination to retrieve all books.
             """)
     void getAll_ValidBookData_ReturnAllBookDtoList() throws Exception {
-        CreateBookRequestDto bookRequestDto_1 = new CreateBookRequestDto();
-        bookRequestDto_1.setTitle("Sample Book Title 3");
-        bookRequestDto_1.setAuthor("Author 3");
-        bookRequestDto_1.setIsbn("978-1234567893");
-        bookRequestDto_1.setPrice(BigDecimal.valueOf(25));
-        bookRequestDto_1.setDescription("Description 3");
-        bookRequestDto_1.setCoverImage("https://example.com/book-cover3.jpg");
-        bookRequestDto_1.setCategoriesId(Set.of(1L));
+        CreateBookRequestDto firstBookRequestDto = new CreateBookRequestDto();
+        firstBookRequestDto.setTitle("Sample Book Title 3");
+        firstBookRequestDto.setAuthor("Author 3");
+        firstBookRequestDto.setIsbn("978-1234567893");
+        firstBookRequestDto.setPrice(BigDecimal.valueOf(25));
+        firstBookRequestDto.setDescription("Description 3");
+        firstBookRequestDto.setCoverImage("https://example.com/book-cover3.jpg");
+        firstBookRequestDto.setCategoriesId(Set.of(1L));
 
-        BookDto bookResponseDto_1 = new BookDto();
-        bookResponseDto_1.setId(1L);
-        bookResponseDto_1.setTitle(bookRequestDto_1.getTitle());
-        bookResponseDto_1.setAuthor(bookRequestDto_1.getAuthor());
-        bookResponseDto_1.setIsbn(bookRequestDto_1.getIsbn());
-        bookResponseDto_1.setPrice(bookRequestDto_1.getPrice());
-        bookResponseDto_1.setDescription(bookRequestDto_1.getDescription());
-        bookResponseDto_1.setCoverImage(bookRequestDto_1.getCoverImage());
-        bookResponseDto_1.setCategoriesId(bookRequestDto_1.getCategoriesId());
+        BookDto firstBookResponseDto = new BookDto();
+        firstBookResponseDto.setId(1L);
+        firstBookResponseDto.setTitle(firstBookRequestDto.getTitle());
+        firstBookResponseDto.setAuthor(firstBookRequestDto.getAuthor());
+        firstBookResponseDto.setIsbn(firstBookRequestDto.getIsbn());
+        firstBookResponseDto.setPrice(firstBookRequestDto.getPrice());
+        firstBookResponseDto.setDescription(firstBookRequestDto.getDescription());
+        firstBookResponseDto.setCoverImage(firstBookRequestDto.getCoverImage());
+        firstBookResponseDto.setCategoriesId(firstBookRequestDto.getCategoriesId());
 
-        CreateBookRequestDto bookRequestDto_2 = new CreateBookRequestDto();
-        bookRequestDto_2.setTitle("Sample Book Title 4");
-        bookRequestDto_2.setAuthor("Author 4");
-        bookRequestDto_2.setIsbn("978-1234567894");
-        bookRequestDto_2.setPrice(BigDecimal.valueOf(16));
-        bookRequestDto_2.setDescription("Description 4");
-        bookRequestDto_2.setCoverImage("https://example.com/book-cover4.jpg");
-        bookRequestDto_2.setCategoriesId(Set.of(2L));
+        CreateBookRequestDto secondBookRequestDto = new CreateBookRequestDto();
+        secondBookRequestDto.setTitle("Sample Book Title 4");
+        secondBookRequestDto.setAuthor("Author 4");
+        secondBookRequestDto.setIsbn("978-1234567894");
+        secondBookRequestDto.setPrice(BigDecimal.valueOf(16));
+        secondBookRequestDto.setDescription("Description 4");
+        secondBookRequestDto.setCoverImage("https://example.com/book-cover4.jpg");
+        secondBookRequestDto.setCategoriesId(Set.of(2L));
 
-        BookDto bookResponseDto_2 = new BookDto();
-        bookResponseDto_2.setId(2L);
-        bookResponseDto_2.setTitle(bookRequestDto_2.getTitle());
-        bookResponseDto_2.setAuthor(bookRequestDto_2.getAuthor());
-        bookResponseDto_2.setIsbn(bookRequestDto_2.getIsbn());
-        bookResponseDto_2.setPrice(bookRequestDto_2.getPrice());
-        bookResponseDto_2.setDescription(bookRequestDto_2.getDescription());
-        bookResponseDto_2.setCoverImage(bookRequestDto_2.getCoverImage());
-        bookResponseDto_2.setCategoriesId(bookRequestDto_2.getCategoriesId());
+        BookDto secondBookResponseDto = new BookDto();
+        secondBookResponseDto.setId(2L);
+        secondBookResponseDto.setTitle(secondBookRequestDto.getTitle());
+        secondBookResponseDto.setAuthor(secondBookRequestDto.getAuthor());
+        secondBookResponseDto.setIsbn(secondBookRequestDto.getIsbn());
+        secondBookResponseDto.setPrice(secondBookRequestDto.getPrice());
+        secondBookResponseDto.setDescription(secondBookRequestDto.getDescription());
+        secondBookResponseDto.setCoverImage(secondBookRequestDto.getCoverImage());
+        secondBookResponseDto.setCategoriesId(secondBookRequestDto.getCategoriesId());
 
-        CreateBookRequestDto bookRequestDto_3 = new CreateBookRequestDto();
-        bookRequestDto_3.setTitle("Sample Book Title 2");
-        bookRequestDto_3.setAuthor("Author 2");
-        bookRequestDto_3.setIsbn("978-1334567892");
-        bookRequestDto_3.setPrice(BigDecimal.valueOf(160));
-        bookRequestDto_3.setDescription("Description 2");
-        bookRequestDto_3.setCoverImage("https://example.com/book-cover2.jpg");
-        bookRequestDto_3.setCategoriesId(Set.of(2L));
+        CreateBookRequestDto thirdBookRequestDto = new CreateBookRequestDto();
+        thirdBookRequestDto.setTitle("Sample Book Title 2");
+        thirdBookRequestDto.setAuthor("Author 2");
+        thirdBookRequestDto.setIsbn("978-1334567892");
+        thirdBookRequestDto.setPrice(BigDecimal.valueOf(160));
+        thirdBookRequestDto.setDescription("Description 2");
+        thirdBookRequestDto.setCoverImage("https://example.com/book-cover2.jpg");
+        thirdBookRequestDto.setCategoriesId(Set.of(2L));
 
-        BookDto bookResponseDto_3 = new BookDto();
-        bookResponseDto_3.setId(3L);
-        bookResponseDto_3.setTitle(bookRequestDto_3.getTitle());
-        bookResponseDto_3.setAuthor(bookRequestDto_3.getAuthor());
-        bookResponseDto_3.setIsbn(bookRequestDto_3.getIsbn());
-        bookResponseDto_3.setPrice(bookRequestDto_3.getPrice());
-        bookResponseDto_3.setDescription(bookRequestDto_3.getDescription());
-        bookResponseDto_3.setCoverImage(bookRequestDto_3.getCoverImage());
-        bookResponseDto_3.setCategoriesId(bookRequestDto_3.getCategoriesId());
+        BookDto thirdBookResponseDto = new BookDto();
+        thirdBookResponseDto.setId(3L);
+        thirdBookResponseDto.setTitle(thirdBookRequestDto.getTitle());
+        thirdBookResponseDto.setAuthor(thirdBookRequestDto.getAuthor());
+        thirdBookResponseDto.setIsbn(thirdBookRequestDto.getIsbn());
+        thirdBookResponseDto.setPrice(thirdBookRequestDto.getPrice());
+        thirdBookResponseDto.setDescription(thirdBookRequestDto.getDescription());
+        thirdBookResponseDto.setCoverImage(thirdBookRequestDto.getCoverImage());
+        thirdBookResponseDto.setCategoriesId(thirdBookRequestDto.getCategoriesId());
 
         List<BookDto> expectedBookDto = new ArrayList<>();
-        expectedBookDto.add(bookResponseDto_1);
-        expectedBookDto.add(bookResponseDto_2);
-        expectedBookDto.add(bookResponseDto_3);
+        expectedBookDto.add(firstBookResponseDto);
+        expectedBookDto.add(secondBookResponseDto);
+        expectedBookDto.add(thirdBookResponseDto);
 
         MvcResult result = mockMvc.perform(get("/books")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -167,26 +169,26 @@ class BookControllerTest {
             to retrieve a book by its ID
             """)
     void getById_ValidBookId_ShouldReturnValidBookData() throws Exception {
-        CreateBookRequestDto bookRequestDto_3 = new CreateBookRequestDto();
-        bookRequestDto_3.setTitle("Sample Book Title 2");
-        bookRequestDto_3.setAuthor("Author 2");
-        bookRequestDto_3.setIsbn("978-1334567892");
-        bookRequestDto_3.setPrice(BigDecimal.valueOf(160));
-        bookRequestDto_3.setDescription("Description 2");
-        bookRequestDto_3.setCoverImage("https://example.com/book-cover2.jpg");
-        bookRequestDto_3.setCategoriesId(Set.of(2L));
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle("Sample Book Title 2");
+        bookRequestDto.setAuthor("Author 2");
+        bookRequestDto.setIsbn("978-1334567892");
+        bookRequestDto.setPrice(BigDecimal.valueOf(160));
+        bookRequestDto.setDescription("Description 2");
+        bookRequestDto.setCoverImage("https://example.com/book-cover2.jpg");
+        bookRequestDto.setCategoriesId(Set.of(2L));
 
-        BookDto bookResponseDto_3 = new BookDto();
-        bookResponseDto_3.setId(3L);
-        bookResponseDto_3.setTitle(bookRequestDto_3.getTitle());
-        bookResponseDto_3.setAuthor(bookRequestDto_3.getAuthor());
-        bookResponseDto_3.setIsbn(bookRequestDto_3.getIsbn());
-        bookResponseDto_3.setPrice(bookRequestDto_3.getPrice());
-        bookResponseDto_3.setDescription(bookRequestDto_3.getDescription());
-        bookResponseDto_3.setCoverImage(bookRequestDto_3.getCoverImage());
-        bookResponseDto_3.setCategoriesId(bookRequestDto_3.getCategoriesId());
+        BookDto bookResponseDto = new BookDto();
+        bookResponseDto.setId(3L);
+        bookResponseDto.setTitle(bookRequestDto.getTitle());
+        bookResponseDto.setAuthor(bookRequestDto.getAuthor());
+        bookResponseDto.setIsbn(bookRequestDto.getIsbn());
+        bookResponseDto.setPrice(bookRequestDto.getPrice());
+        bookResponseDto.setDescription(bookRequestDto.getDescription());
+        bookResponseDto.setCoverImage(bookRequestDto.getCoverImage());
+        bookResponseDto.setCategoriesId(bookRequestDto.getCategoriesId());
 
-        Long bookId = bookResponseDto_3.getId();
+        Long bookId = bookResponseDto.getId();
         MvcResult result = mockMvc.perform(get("/books/" + bookId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -195,8 +197,8 @@ class BookControllerTest {
                 .getContentAsString(), BookDto.class);
         assertNotNull(actualBookDto);
         assertNotNull(actualBookDto.getId());
-        assertEquals(bookResponseDto_3.getId(), actualBookDto.getId());
-        EqualsBuilder.reflectionEquals(bookResponseDto_3, actualBookDto);
+        assertEquals(bookResponseDto.getId(), actualBookDto.getId());
+        EqualsBuilder.reflectionEquals(bookResponseDto, actualBookDto);
     }
 
     @Test
@@ -206,26 +208,26 @@ class BookControllerTest {
             valid request parameters
             """)
     void save_WithValidCreateBookRequestDto_ReturnBookDto() throws Exception {
-        CreateBookRequestDto bookRequestDto_1 = new CreateBookRequestDto();
-        bookRequestDto_1.setTitle("Sample Book Title 1");
-        bookRequestDto_1.setAuthor("Author 1");
-        bookRequestDto_1.setIsbn("978-1234587693");
-        bookRequestDto_1.setPrice(BigDecimal.valueOf(60));
-        bookRequestDto_1.setDescription("Description 1");
-        bookRequestDto_1.setCoverImage("https://example.com/book-cover1.jpg");
-        bookRequestDto_1.setCategoriesId(Set.of(1L));
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle("Sample Book Title 1");
+        bookRequestDto.setAuthor("Author 1");
+        bookRequestDto.setIsbn("978-1234587693");
+        bookRequestDto.setPrice(BigDecimal.valueOf(60));
+        bookRequestDto.setDescription("Description 1");
+        bookRequestDto.setCoverImage("https://example.com/book-cover1.jpg");
+        bookRequestDto.setCategoriesId(Set.of(1L));
 
-        BookDto bookResponseDto_1 = new BookDto();
-        bookResponseDto_1.setId(1L);
-        bookResponseDto_1.setTitle(bookRequestDto_1.getTitle());
-        bookResponseDto_1.setAuthor(bookRequestDto_1.getAuthor());
-        bookResponseDto_1.setIsbn(bookRequestDto_1.getIsbn());
-        bookResponseDto_1.setPrice(bookRequestDto_1.getPrice());
-        bookResponseDto_1.setDescription(bookRequestDto_1.getDescription());
-        bookResponseDto_1.setCoverImage(bookRequestDto_1.getCoverImage());
-        bookResponseDto_1.setCategoriesId(bookRequestDto_1.getCategoriesId());
+        BookDto bookResponseDto = new BookDto();
+        bookResponseDto.setId(1L);
+        bookResponseDto.setTitle(bookRequestDto.getTitle());
+        bookResponseDto.setAuthor(bookRequestDto.getAuthor());
+        bookResponseDto.setIsbn(bookRequestDto.getIsbn());
+        bookResponseDto.setPrice(bookRequestDto.getPrice());
+        bookResponseDto.setDescription(bookRequestDto.getDescription());
+        bookResponseDto.setCoverImage(bookRequestDto.getCoverImage());
+        bookResponseDto.setCategoriesId(bookRequestDto.getCategoriesId());
 
-        String jsonRequest = objectMapper.writeValueAsString(bookRequestDto_1);
+        String jsonRequest = objectMapper.writeValueAsString(bookRequestDto);
         MvcResult result = mockMvc.perform(post("/books")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -235,34 +237,33 @@ class BookControllerTest {
                 .getContentAsString(), BookDto.class);
         assertNotNull(actualBookDto);
         assertNotNull(actualBookDto.getId());
-        assertEquals(bookResponseDto_1.getTitle(), actualBookDto.getTitle());
-        EqualsBuilder.reflectionEquals(bookResponseDto_1, actualBookDto);
+        EqualsBuilder.reflectionEquals(bookResponseDto, actualBookDto);
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("Test the 'deleteById' endpoint with a valid book ID")
     void deleteById_ValidBookId_ReturnVoid() throws Exception {
-        CreateBookRequestDto bookRequestDto_2 = new CreateBookRequestDto();
-        bookRequestDto_2.setTitle("Sample Book Title 4");
-        bookRequestDto_2.setAuthor("Author 4");
-        bookRequestDto_2.setIsbn("978-1234567894");
-        bookRequestDto_2.setPrice(BigDecimal.valueOf(16));
-        bookRequestDto_2.setDescription("Description 4");
-        bookRequestDto_2.setCoverImage("https://example.com/book-cover4.jpg");
-        bookRequestDto_2.setCategoriesId(Set.of(2L));
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle("Sample Book Title 4");
+        bookRequestDto.setAuthor("Author 4");
+        bookRequestDto.setIsbn("978-1234567894");
+        bookRequestDto.setPrice(BigDecimal.valueOf(16));
+        bookRequestDto.setDescription("Description 4");
+        bookRequestDto.setCoverImage("https://example.com/book-cover4.jpg");
+        bookRequestDto.setCategoriesId(Set.of(2L));
 
-        BookDto bookResponseDto_2 = new BookDto();
-        bookResponseDto_2.setId(2L);
-        bookResponseDto_2.setTitle(bookRequestDto_2.getTitle());
-        bookResponseDto_2.setAuthor(bookRequestDto_2.getAuthor());
-        bookResponseDto_2.setIsbn(bookRequestDto_2.getIsbn());
-        bookResponseDto_2.setPrice(bookRequestDto_2.getPrice());
-        bookResponseDto_2.setDescription(bookRequestDto_2.getDescription());
-        bookResponseDto_2.setCoverImage(bookRequestDto_2.getCoverImage());
-        bookResponseDto_2.setCategoriesId(bookRequestDto_2.getCategoriesId());
+        BookDto bookResponseDto = new BookDto();
+        bookResponseDto.setId(2L);
+        bookResponseDto.setTitle(bookRequestDto.getTitle());
+        bookResponseDto.setAuthor(bookRequestDto.getAuthor());
+        bookResponseDto.setIsbn(bookRequestDto.getIsbn());
+        bookResponseDto.setPrice(bookRequestDto.getPrice());
+        bookResponseDto.setDescription(bookRequestDto.getDescription());
+        bookResponseDto.setCoverImage(bookRequestDto.getCoverImage());
+        bookResponseDto.setCategoriesId(bookRequestDto.getCategoriesId());
 
-        Long bookId = bookResponseDto_2.getId();
+        Long bookId = bookResponseDto.getId();
         mockMvc.perform(delete("/books/" + bookId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -315,31 +316,31 @@ class BookControllerTest {
             The method should return all books matching the specified input parameters
             """)
     void search_ValidParameters() throws Exception {
-        CreateBookRequestDto bookRequestDto_2 = new CreateBookRequestDto();
-        bookRequestDto_2.setTitle("Sample Book Title 4");
-        bookRequestDto_2.setAuthor("Author 4");
-        bookRequestDto_2.setIsbn("978-1234567894");
-        bookRequestDto_2.setPrice(BigDecimal.valueOf(16));
-        bookRequestDto_2.setDescription("Description 4");
-        bookRequestDto_2.setCoverImage("https://example.com/book-cover4.jpg");
-        bookRequestDto_2.setCategoriesId(Set.of(2L));
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle("Sample Book Title 4");
+        bookRequestDto.setAuthor("Author 4");
+        bookRequestDto.setIsbn("978-1234567894");
+        bookRequestDto.setPrice(BigDecimal.valueOf(16));
+        bookRequestDto.setDescription("Description 4");
+        bookRequestDto.setCoverImage("https://example.com/book-cover4.jpg");
+        bookRequestDto.setCategoriesId(Set.of(2L));
 
-        BookDto bookResponseDto_2 = new BookDto();
-        bookResponseDto_2.setId(2L);
-        bookResponseDto_2.setTitle(bookRequestDto_2.getTitle());
-        bookResponseDto_2.setAuthor(bookRequestDto_2.getAuthor());
-        bookResponseDto_2.setIsbn(bookRequestDto_2.getIsbn());
-        bookResponseDto_2.setPrice(bookRequestDto_2.getPrice());
-        bookResponseDto_2.setDescription(bookRequestDto_2.getDescription());
-        bookResponseDto_2.setCoverImage(bookRequestDto_2.getCoverImage());
-        bookResponseDto_2.setCategoriesId(bookRequestDto_2.getCategoriesId());
+        BookDto bookResponseDto = new BookDto();
+        bookResponseDto.setId(2L);
+        bookResponseDto.setTitle(bookRequestDto.getTitle());
+        bookResponseDto.setAuthor(bookRequestDto.getAuthor());
+        bookResponseDto.setIsbn(bookRequestDto.getIsbn());
+        bookResponseDto.setPrice(bookRequestDto.getPrice());
+        bookResponseDto.setDescription(bookRequestDto.getDescription());
+        bookResponseDto.setCoverImage(bookRequestDto.getCoverImage());
+        bookResponseDto.setCategoriesId(bookRequestDto.getCategoriesId());
 
         List<BookDto> bookDtoList = new ArrayList<>();
-        bookDtoList.add(bookResponseDto_2);
+        bookDtoList.add(bookResponseDto);
         BookSearchParametersDto params = new BookSearchParametersDto(
-                new String[]{bookRequestDto_2.getTitle()},
-                new String[]{bookRequestDto_2.getAuthor()},
-                new String[]{String.valueOf(bookRequestDto_2.getCategoriesId())});
+                new String[]{bookRequestDto.getTitle()},
+                new String[]{bookRequestDto.getAuthor()},
+                new String[]{String.valueOf(bookRequestDto.getCategoriesId())});
         MvcResult result = mockMvc.perform(get("/books/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("titles", params.titles())
@@ -360,23 +361,23 @@ class BookControllerTest {
             The method should return all books matching the specified book category ID
             """)
     void getByCategoryId_ValidCategoryId_ReturnBookDtoWithoutCategoryId() throws Exception {
-        CreateBookRequestDto bookRequestDto_1 = new CreateBookRequestDto();
-        bookRequestDto_1.setTitle("Sample Book Title 3");
-        bookRequestDto_1.setAuthor("Author 3");
-        bookRequestDto_1.setIsbn("978-1234567893");
-        bookRequestDto_1.setPrice(BigDecimal.valueOf(25));
-        bookRequestDto_1.setDescription("Description 3");
-        bookRequestDto_1.setCoverImage("https://example.com/book-cover3.jpg");
-        bookRequestDto_1.setCategoriesId(Set.of(1L));
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle("Sample Book Title 3");
+        bookRequestDto.setAuthor("Author 3");
+        bookRequestDto.setIsbn("978-1234567893");
+        bookRequestDto.setPrice(BigDecimal.valueOf(25));
+        bookRequestDto.setDescription("Description 3");
+        bookRequestDto.setCoverImage("https://example.com/book-cover3.jpg");
+        bookRequestDto.setCategoriesId(Set.of(1L));
 
         BookDtoWithoutCategoryId bookDtoWithoutCategoryId = new BookDtoWithoutCategoryId();
         bookDtoWithoutCategoryId.setId(1L);
-        bookDtoWithoutCategoryId.setTitle(bookRequestDto_1.getTitle());
-        bookDtoWithoutCategoryId.setAuthor(bookRequestDto_1.getAuthor());
-        bookDtoWithoutCategoryId.setIsbn(bookRequestDto_1.getIsbn());
-        bookDtoWithoutCategoryId.setPrice(bookRequestDto_1.getPrice());
-        bookDtoWithoutCategoryId.setDescription(bookRequestDto_1.getDescription());
-        bookDtoWithoutCategoryId.setCoverImage(bookRequestDto_1.getCoverImage());
+        bookDtoWithoutCategoryId.setTitle(bookRequestDto.getTitle());
+        bookDtoWithoutCategoryId.setAuthor(bookRequestDto.getAuthor());
+        bookDtoWithoutCategoryId.setIsbn(bookRequestDto.getIsbn());
+        bookDtoWithoutCategoryId.setPrice(bookRequestDto.getPrice());
+        bookDtoWithoutCategoryId.setDescription(bookRequestDto.getDescription());
+        bookDtoWithoutCategoryId.setCoverImage(bookRequestDto.getCoverImage());
 
         List<BookDtoWithoutCategoryId> expectedBookDto = new ArrayList<>();
         expectedBookDto.add(bookDtoWithoutCategoryId);
@@ -385,7 +386,8 @@ class BookControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        BookDtoWithoutCategoryId[] actualBookDtoWithoutCategoryId = objectMapper.readValue(result.getResponse()
+        BookDtoWithoutCategoryId[] actualBookDtoWithoutCategoryId = objectMapper
+                .readValue(result.getResponse()
                 .getContentAsByteArray(), BookDtoWithoutCategoryId[].class);
         assertNotNull(actualBookDtoWithoutCategoryId);
         assertEquals(expectedBookDto, Arrays.stream(actualBookDtoWithoutCategoryId).toList());
