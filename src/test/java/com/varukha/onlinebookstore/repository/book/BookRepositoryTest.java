@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
+import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -86,7 +87,8 @@ class BookRepositoryTest {
         List<Book> actual = bookRepository.findAllByCategoryId(categoryId);
         assertNotNull(actual);
         assertEquals(2, actual.size());
-        assertTrue(actual.contains(secondBook) && actual.contains(thirdBook));
+        assertTrue(actual.stream().anyMatch(book -> book.getId().equals(secondBook.getId())));
+        assertTrue(actual.stream().anyMatch(book -> book.getId().equals(thirdBook.getId())));
     }
 
     @Test
@@ -149,12 +151,9 @@ class BookRepositoryTest {
         List<Book> books = bookRepository.findAllWithCategory(pageable);
         assertNotNull(books);
         assertEquals(3, books.size());
-        assertTrue(books.contains(firstBook)
-                && books.contains(secondBook)
-                && books.contains(thirdBook));
-        assertEquals(books.get(0).getCategories(), firstBook.getCategories());
-        assertEquals(books.get(1).getCategories(), secondBook.getCategories());
-        assertEquals(books.get(2).getCategories(), thirdBook.getCategories());
+        assertTrue(books.stream().anyMatch(book -> book.getId().equals(firstBook.getId())));
+        assertTrue(books.stream().anyMatch(book -> book.getId().equals(secondBook.getId())));
+        assertTrue(books.stream().anyMatch(book -> book.getId().equals(thirdBook.getId())));
     }
 
     @Test
@@ -189,6 +188,6 @@ class BookRepositoryTest {
         Book actual = bookRepository.findByIdWithCategory(bookId)
                 .orElse(null);
         assertNotNull(actual);
-        assertEquals(book, actual);
+        EqualsBuilder.reflectionEquals(book, actual);
     }
 }

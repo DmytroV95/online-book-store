@@ -9,13 +9,12 @@ import com.varukha.onlinebookstore.mapper.OrderItemsMapper;
 import com.varukha.onlinebookstore.mapper.OrderMapper;
 import com.varukha.onlinebookstore.model.Order;
 import com.varukha.onlinebookstore.model.OrderItem;
-import com.varukha.onlinebookstore.model.ShoppingCart;
 import com.varukha.onlinebookstore.model.User;
-import com.varukha.onlinebookstore.repository.cartitem.CartItemRepository;
 import com.varukha.onlinebookstore.repository.order.OrderRepository;
 import com.varukha.onlinebookstore.repository.orderitem.OrderItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
 import com.varukha.onlinebookstore.service.order.OrderService;
+import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartService;
 import com.varukha.onlinebookstore.service.user.UserService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -36,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemsMapper orderItemsMapper;
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
-    private final CartItemRepository cartItemRepository;
+    private final ShoppingCartService shoppingCartService;
     private final ShoppingCartRepository shoppingCartRepository;
 
     @Transactional
@@ -45,14 +44,14 @@ public class OrderServiceImpl implements OrderService {
         User authenticatedUser = userService.getAuthenticatedUser();
         Long userId = authenticatedUser.getId();
         Set<OrderItem> orderItems = getOrderItems(userId);
-        Order order = buildOrder(authenticatedUser, orderRequestDto, orderItems);
-        clearShoppingCart(userId);
+        Order order = createOrder(authenticatedUser, orderRequestDto, orderItems);
+        shoppingCartService.clearShoppingCart(userId);
         return orderMapper.toDto(order);
     }
 
-    private Order buildOrder(User authenticatedUser,
-                             CreateOrderRequestDto orderRequestDto,
-                             Set<OrderItem> orderItems) {
+    private Order createOrder(User authenticatedUser,
+                              CreateOrderRequestDto orderRequestDto,
+                              Set<OrderItem> orderItems) {
         Order order = new Order();
         order.setUser(authenticatedUser);
         order.setStatus(Order.Status.PENDING);
@@ -88,7 +87,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderItemDto getOrderItemFromOrderById(Long orderId, Long itemId) {
         return orderItemRepository.findOrderItemByIdAndOrderId(itemId, orderId)
                 .map(orderItemsMapper::toDto)
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("Order item by item id: "
+                        + itemId + " and order id: " + orderId + " not found"));
     }
 
     @Override
@@ -120,13 +120,5 @@ public class OrderServiceImpl implements OrderService {
                         .map(orderItemsMapper::toModel)
                         .collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());
-    }
-
-    @Transactional
-    public void clearShoppingCart(Long userId) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Shopping cart by id: "
-                        + userId + " not found"));
-        cartItemRepository.deleteAll(shoppingCart.getCartItems());
     }
 }
