@@ -15,6 +15,9 @@ import com.varukha.onlinebookstore.service.user.UserService;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,5 +61,14 @@ public class UserServiceImpl implements UserService {
         return roleRepository.findByName(ROLE_USER)
                 .orElseThrow(() -> new NoSuchElementException("The role "
                         + ROLE_USER + " is not found in the database"));
+    }
+
+    @Override
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findUserByEmail(authentication.getName()).orElseThrow(
+                () -> new UsernameNotFoundException("Can't find a user by provided email "
+                        + authentication.getName())
+        );
     }
 }

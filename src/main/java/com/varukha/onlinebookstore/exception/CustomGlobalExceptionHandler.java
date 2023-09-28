@@ -47,13 +47,25 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<Object> handleAllErrors() {
+    protected ResponseEntity<Object> handleAllErrors(
+            RuntimeException exception) {
         ErrorResponseDto response = new ErrorResponseDto(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 new String[]{"Oops something wrong"}
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleAllErrors(
+            EntityNotFoundException exception) {
+        ErrorResponseDto response = new ErrorResponseDto(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND,
+                new String[]{exception.getMessage()}
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     private String getErrorMessage(ObjectError e) {
