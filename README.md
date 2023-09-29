@@ -1,6 +1,9 @@
 # Online Book Store
 ####
-Welcome to the ***Online Book Store*** documentation. This application is designed to power an online book store, allowing users to browse, search for, and purchase books. It also provides administrative functionalities for managing books, categories, and orders.
+### Glad to introduce the Online Book Store application 
+This application is designed to power an online book store, allowing users to browse, search for, and purchase books. It also provides administrative functionalities for managing books, categories, and orders.
+####
+I appreciate your time, so you can watch the [project presentation](#content).
 
 ## Content
 
@@ -47,11 +50,10 @@ Welcome to the ***Online Book Store*** documentation. This application is design
 
 
 ## Authentication Controller
-####
-[Back to application content](#content)
-
 The Authentication Controller is responsible for user authentication and registration functionalities, enabling users to
 interact with the system and utilize its functionalities.
+- [Back to application content](#content)
+####
 
 ####
 
@@ -104,10 +106,10 @@ If you are already a registered user, you can log in to access your account and 
     ```
 
 ## Book Controller
-[Back to Application API content](#application-api)
+The Book Controller provides access to book-related functionalities, allowing users to retrieve and manage book information within the online store.
+- [Back to Application API content](#application-api)
+- [Back to application content](#content)
 ####
-[Back to application content](#content)
-
 - **GET /api/books:** Retrieve the book catalog.
     - Example Response Body:
 
@@ -164,9 +166,10 @@ If you are already a registered user, you can log in to access your account and 
       ```
 
 ## Category Controller
-[Back to Application API content](#application-api)
+The Category Controller enables users to view and manage book categories, making it easier to find books of interest.
+- [Back to Application API content](#application-api)
+- [Back to application content](#content)
 ####
-[Back to application content](#content)
 
 - **GET /api/categories:** Retrieve all categories.
 - **GET /api/categories/{id}/books:** Retrieve books by a specific category.
@@ -194,9 +197,10 @@ If you are already a registered user, you can log in to access your account and 
 - **DELETE /api/categories/{id}:** Delete a specific category.
 
 ## ShoppingCart Controller
-[Back to Application API content](#application-api)
+The Shopping Cart Controller facilitates shopping cart operations, including adding and removing items for a seamless shopping experience.
+- [Back to Application API content](#application-api)
+- [Back to application content](#content)
 ####
-[Back to application content](#content)
 
 - **GET /api/cart:** Retrieve the user's shopping cart.
     - Example Response Body:
@@ -243,9 +247,10 @@ If you are already a registered user, you can log in to access your account and 
 
 
 ## Order Controller
-[Back to Application API content](#application-api)
+The Order Controller allows users to place orders, view their order history, and enables administrators to manage the status of users' orders.
+- [Back to Application API content](#application-api)
+- [Back to application content](#content)
 ####
-[Back to application content](#content)
 
 - **POST /api/orders:** Place an order.
     - Example Request Body:
@@ -298,9 +303,10 @@ If you are already a registered user, you can log in to access your account and 
       ```
 
 ## OrderItem Controller
-[Back to Application API content](#application-api)
+The OrderItem Controller provides access to order item information, allowing users to view details of their purchases within an order.
+- [Back to Application API content](#application-api)
+- [Back to application content](#content)
 ####
-[Back to application content](#content)
 
 - **GET /api/orders/{orderId}/items:** Retrieve all OrderItems for a specific order (Nested under Order).
     - Example Response Body:
@@ -341,9 +347,9 @@ If you are already a registered user, you can log in to access your account and 
       ```
 
 ## Security
-[back to content](#content)
-
 In this section, we'll cover the security requirements and features of Online Book Store Application.
+- [Back to application content](#content)
+####
 
 ### Security Features and Considerations
 
@@ -396,7 +402,9 @@ In this section, we'll cover the security requirements and features of Online Bo
 - **PATCH:** `/api/orders/{id}` (Update order status)
 
 ## Running the Application with Docker
-[back to content](#content)
+In this section, you will find out how the process of running application using Docker.
+- [Back to application content](#content)
+####
 ### To run this application using Docker, please follow these steps:
 
 - ***Docker Setup:*** Ensure that you have Docker installed on your system. You can download and install Docker from the official website: Docker Installation.
@@ -422,18 +430,12 @@ In this section, we'll cover the security requirements and features of Online Bo
 
 
 # Instructions for importing data
+In this section, instructions are provided for importing sample data into application, which can be particularly useful for testing and development purposes.
+- [Back to application content](#content)
 
-[Back to application content](#content)
+### Importing Sample Data as JSON in Postman
 
-## Sample Data JSON
-
-You can access the sample data JSON file used for testing the API in Postman at the following URL:
-
-[Sample Data JSON](Sample%20JSON%20data)
-
-## Importing Sample Data JSON in Postman
-
-To import the sample data JSON into Postman for testing, follow these steps:
+To import the [Sample Data as JSON](Sample%20JSON%20data) into Postman for testing, follow these steps:
 
 1. Open Postman.
 
@@ -447,8 +449,8 @@ To import the sample data JSON into Postman for testing, follow these steps:
 
 ### Testing Oline Book Store Application
 
-Now, when you have imported the sample data JSON, you can use it to test a functional application.
-You can create a new user or use an existing one (see below for the request body). Here are the steps:
+Now, when you have imported the data, you can use it to test a functional application.
+You can create a new user or use an existing one as [admin](#logging-in-as-a-registered-user-role-admin) or [user](#logging-in-as-a-registered-user-role-user). Here are the steps:
 
 ### Registering a New User
 
@@ -463,7 +465,7 @@ You can create a new user or use an existing one (see below for the request body
 - Use this request body to register as user:
    ```json
    {
-     "email": "user.doe@example.com",
+     "email": "user@example.com",
      "password": "user123"
    }
    ```
@@ -473,8 +475,39 @@ You can create a new user or use an existing one (see below for the request body
 - Use this request body to register as admin:
    ```json
    {
-     "email": "admin.doe@example.com",
+     "email": "admin@example.com",
      "password": "admin123"
    }
    ```
+####
+## Accessing Swagger Documentation in a Web Browser
+In this section, instructions are provided for accessing the Swagger documentation directly from your web browser, allowing you to explore and interact with the API endpoints easily.
+### Follow these steps to access the Swagger documentation and explore API endpoints using a web browser:
+
+ - Start the Application
+ - Launch your preferred web browser (e.g., Chrome, Firefox, or Edge)
+ - In the browser's address bar, enter the URL for the Swagger documentation
+   - If the application is running:
+      - locally: http://localhost:8080/api/swagger-ui/index.html
+      - using Docker: http://localhost:8088/api/swagger-ui/index.html
+
+### ***Authentication and Authorization in Swagger UI:***
+To gain access, use the [username and password](#logging-in-as-a-registered-user-role-admin) that you use to log in to the system.
+If API endpoints require authorization, just make log in operation to get the authentication token to authenticate yourself.
+####
+### Explore Endpoints:
+
+Once you access the Swagger UI, you will be presented with a user-friendly interface. Here, you can explore a list of available API endpoints, including their descriptions and supported HTTP methods (e.g., GET, POST, PUT, DELETE).
+Swagger UI offers an interactive way to understand, test, and work with ***Online Book Store*** API. Take your time to explore the available endpoints and make test requests as needed.
+
+1. ***Select an Endpoint:***
+To get detailed information about a specific endpoint, click on it in the Swagger UI. This will expand the endpoint and display details such as request parameters, request body models (if applicable), and example responses.
+####
+2. ***Test an Endpoint:***
+If you want to test an endpoint interactively, click the "Try it out" button next to the endpoint. This allows you to input parameters, execute requests, and view the responses directly within Swagger UI.
+####
+
+## ***Enjoy Your Exploring!***
+##
+- [Back to application content](#content)
 #
