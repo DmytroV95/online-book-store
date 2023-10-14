@@ -452,7 +452,8 @@ To run the application without Docker, follow these steps:
     ```bash
     docker-compose --version
     ```
-- ***Environment Variables:*** Application root directory has .env.file with sample data to connection with docker container. Ensure you have a ***.env*** file in project root directory with the necessary environment variables. These variables should include your database connection details and any secret keys required by application.
+- ***Environment Variables:*** Create the ***.env*** file  in project root directory with the necessary environment variables. These variables should include your database connection details and any secret keys required by application.
+   ***Use .env.sample file from application root directory as a sample data to connection with docker container with your custom properties.***
 ####
 - ***Build Docker Image:*** In your project root directory, open a terminal and run the following command to build a Docker image of application:
     ```bash
