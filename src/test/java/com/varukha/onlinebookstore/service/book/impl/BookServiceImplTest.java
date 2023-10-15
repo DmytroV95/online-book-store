@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -18,12 +19,17 @@ import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
 import com.varukha.onlinebookstore.exception.EntityNotFoundException;
 import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
+import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +43,32 @@ import org.springframework.data.jpa.domain.Specification;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
+    private static final Category VALID_CATEGORY_1
+            = new Category();
+    private static final Category VALID_CATEGORY_2
+            = new Category();
+    private static final Book VALID_BOOK_1 = new Book();
+    private static final Book VALID_BOOK_2 = new Book();
+    private static final Book VALID_BOOK_3 = new Book();
+    private static final Book VALID_BOOK_1_UPDATED = new Book();
+    private static final CreateBookRequestDto REQUEST_DTO_BOOK_1
+            = new CreateBookRequestDto();
+    private static final CreateBookRequestDto REQUEST_DTO_BOOK_2
+            = new CreateBookRequestDto();
+    private static final CreateBookRequestDto REQUEST_DTO_BOOK_3
+            = new CreateBookRequestDto();
+
+    private static final BookDto BOOK_1_DTO = new BookDto();
+    private static final BookDto BOOK_2_DTO = new BookDto();
+    private static final BookDto BOOK_3_DTO = new BookDto();
+    private static final BookDto BOOK_1_DTO_UPDATED = new BookDto();
+    private static final BookDtoWithoutCategoryId BOOK_1_DTO_WITHOUT_CATEGORY_ID
+            = new BookDtoWithoutCategoryId();
+    private static final BookDtoWithoutCategoryId BOOK_2_DTO_WITHOUT_CATEGORY_ID
+            = new BookDtoWithoutCategoryId();
+    private static final BookDtoWithoutCategoryId BOOK_3_DTO_WITHOUT_CATEGORY_ID
+            = new BookDtoWithoutCategoryId();
+
     @Mock
     private BookRepository bookRepository;
     @InjectMocks
@@ -48,43 +80,127 @@ class BookServiceImplTest {
     @Mock
     private BookSpecificationBuilder bookSpecificationBuilder;
 
+    @BeforeEach
+    void setUp() {
+        VALID_CATEGORY_1.setId(1L);
+        VALID_CATEGORY_1.setName("Science Fiction");
+        VALID_CATEGORY_1.setDescription("Science Fiction category description");
+
+        VALID_CATEGORY_2.setId(2L);
+        VALID_CATEGORY_2.setName("Mystery");
+        VALID_CATEGORY_2.setDescription("Mystery category description");
+
+        REQUEST_DTO_BOOK_1.setTitle("Sample Book Title 1");
+        REQUEST_DTO_BOOK_1.setAuthor("Author 1");
+        REQUEST_DTO_BOOK_1.setIsbn("978-1234567891");
+        REQUEST_DTO_BOOK_1.setPrice(BigDecimal.valueOf(25));
+        REQUEST_DTO_BOOK_1.setDescription("Description 1");
+        REQUEST_DTO_BOOK_1.setCoverImage("https://example.com/book-cover1.jpg");
+        REQUEST_DTO_BOOK_1.setCategoriesId(Set.of(VALID_CATEGORY_1.getId()));
+
+        VALID_BOOK_1.setId(1L);
+        VALID_BOOK_1.setTitle(REQUEST_DTO_BOOK_1.getTitle());
+        VALID_BOOK_1.setAuthor(REQUEST_DTO_BOOK_1.getAuthor());
+        VALID_BOOK_1.setIsbn(REQUEST_DTO_BOOK_1.getIsbn());
+        VALID_BOOK_1.setPrice(REQUEST_DTO_BOOK_1.getPrice());
+        VALID_BOOK_1.setDescription(REQUEST_DTO_BOOK_1.getDescription());
+        VALID_BOOK_1.setCoverImage(REQUEST_DTO_BOOK_1.getCoverImage());
+        VALID_BOOK_1.setCategories(Set.of(VALID_CATEGORY_1));
+
+        BOOK_1_DTO.setId(1L);
+        BOOK_1_DTO.setTitle(REQUEST_DTO_BOOK_1.getTitle());
+        BOOK_1_DTO.setAuthor(REQUEST_DTO_BOOK_1.getAuthor());
+        BOOK_1_DTO.setIsbn(REQUEST_DTO_BOOK_1.getIsbn());
+        BOOK_1_DTO.setPrice(REQUEST_DTO_BOOK_1.getPrice());
+        BOOK_1_DTO.setDescription(REQUEST_DTO_BOOK_1.getDescription());
+        BOOK_1_DTO.setCoverImage(REQUEST_DTO_BOOK_1.getCoverImage());
+        BOOK_1_DTO.setCategoriesId(Set.of(VALID_CATEGORY_1.getId()));
+
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setTitle("Sample Book Title 1");
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setTitle(REQUEST_DTO_BOOK_1.getTitle());
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setAuthor(REQUEST_DTO_BOOK_1.getAuthor());
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setIsbn(REQUEST_DTO_BOOK_1.getIsbn());
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setPrice(REQUEST_DTO_BOOK_1.getPrice());
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setDescription(REQUEST_DTO_BOOK_1.getDescription());
+        BOOK_1_DTO_WITHOUT_CATEGORY_ID.setCoverImage(REQUEST_DTO_BOOK_1.getCoverImage());
+
+        VALID_BOOK_1_UPDATED.setTitle("The Great Gatsby");
+        VALID_BOOK_1_UPDATED.setAuthor("F. Scott Fitzgerald");
+        VALID_BOOK_1_UPDATED.setIsbn("978-0743273565");
+        VALID_BOOK_1_UPDATED.setPrice(BigDecimal.valueOf(150));
+        VALID_BOOK_1_UPDATED.setDescription("The Great Gatsby is a classic novel");
+        VALID_BOOK_1_UPDATED.setCoverImage("https://example.com/great-gatsby-cover.jpg");
+        VALID_BOOK_1_UPDATED.setCategories(Set.of(VALID_CATEGORY_2));
+
+        BOOK_1_DTO_UPDATED.setTitle(VALID_BOOK_1_UPDATED.getTitle());
+        BOOK_1_DTO_UPDATED.setAuthor(VALID_BOOK_1_UPDATED.getAuthor());
+        BOOK_1_DTO_UPDATED.setIsbn(VALID_BOOK_1_UPDATED.getIsbn());
+        BOOK_1_DTO_UPDATED.setPrice(VALID_BOOK_1_UPDATED.getPrice());
+        BOOK_1_DTO_UPDATED.setDescription(VALID_BOOK_1_UPDATED.getDescription());
+        BOOK_1_DTO_UPDATED.setCoverImage(VALID_BOOK_1_UPDATED.getCoverImage());
+        BOOK_1_DTO_UPDATED.setCategoriesId(Set.of(2L));
+
+        REQUEST_DTO_BOOK_2.setTitle("Sample Book Title 2");
+        REQUEST_DTO_BOOK_2.setAuthor("Author 2");
+        REQUEST_DTO_BOOK_2.setIsbn("978-1234567892");
+        REQUEST_DTO_BOOK_2.setPrice(BigDecimal.valueOf(16));
+        REQUEST_DTO_BOOK_2.setDescription("Description 2");
+        REQUEST_DTO_BOOK_2.setCoverImage("https://example.com/book-cover2.jpg");
+        REQUEST_DTO_BOOK_2.setCategoriesId(Set.of(VALID_CATEGORY_2.getId()));
+
+        VALID_BOOK_2.setId(2L);
+        VALID_BOOK_2.setTitle(REQUEST_DTO_BOOK_2.getTitle());
+        VALID_BOOK_2.setAuthor(REQUEST_DTO_BOOK_2.getAuthor());
+        VALID_BOOK_2.setIsbn(REQUEST_DTO_BOOK_2.getIsbn());
+        VALID_BOOK_2.setPrice(REQUEST_DTO_BOOK_2.getPrice());
+        VALID_BOOK_2.setDescription(REQUEST_DTO_BOOK_2.getDescription());
+        VALID_BOOK_2.setCoverImage(REQUEST_DTO_BOOK_2.getCoverImage());
+        VALID_BOOK_2.setCategories(Set.of(VALID_CATEGORY_2));
+
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setTitle(REQUEST_DTO_BOOK_2.getTitle());
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setAuthor(REQUEST_DTO_BOOK_2.getAuthor());
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setIsbn(REQUEST_DTO_BOOK_2.getIsbn());
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setPrice(REQUEST_DTO_BOOK_2.getPrice());
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setDescription(REQUEST_DTO_BOOK_2.getDescription());
+        BOOK_2_DTO_WITHOUT_CATEGORY_ID.setCoverImage(REQUEST_DTO_BOOK_2.getCoverImage());
+
+        REQUEST_DTO_BOOK_3.setTitle("Sample Book Title 3");
+        REQUEST_DTO_BOOK_3.setAuthor("Author 3");
+        REQUEST_DTO_BOOK_3.setIsbn("978-1334567893");
+        REQUEST_DTO_BOOK_3.setPrice(BigDecimal.valueOf(160));
+        REQUEST_DTO_BOOK_3.setDescription("Description 3");
+        REQUEST_DTO_BOOK_3.setCoverImage("https://example.com/book-cover3.jpg");
+        REQUEST_DTO_BOOK_3.setCategoriesId(Set.of(VALID_CATEGORY_2.getId()));
+
+        VALID_BOOK_3.setId(3L);
+        VALID_BOOK_3.setTitle(REQUEST_DTO_BOOK_3.getTitle());
+        VALID_BOOK_3.setAuthor(REQUEST_DTO_BOOK_3.getAuthor());
+        VALID_BOOK_3.setIsbn(REQUEST_DTO_BOOK_3.getIsbn());
+        VALID_BOOK_3.setPrice(REQUEST_DTO_BOOK_3.getPrice());
+        VALID_BOOK_3.setDescription(REQUEST_DTO_BOOK_3.getDescription());
+        VALID_BOOK_3.setCoverImage(REQUEST_DTO_BOOK_3.getCoverImage());
+        VALID_BOOK_3.setCategories(Set.of(VALID_CATEGORY_2));
+
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setTitle(REQUEST_DTO_BOOK_3.getTitle());
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setAuthor(REQUEST_DTO_BOOK_3.getAuthor());
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setIsbn(REQUEST_DTO_BOOK_3.getIsbn());
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setPrice(REQUEST_DTO_BOOK_3.getPrice());
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setDescription(REQUEST_DTO_BOOK_3.getDescription());
+        BOOK_3_DTO_WITHOUT_CATEGORY_ID.setCoverImage(REQUEST_DTO_BOOK_3.getCoverImage());
+    }
+
     @Test
     @DisplayName("Test the 'save' method to add new book with valid request parameters")
     void save_WithValidCreateBookRequestDto_ReturnBookDto() {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto();
-        requestDto.setTitle("Sample Book Title");
-        requestDto.setAuthor("John Doe");
-        requestDto.setIsbn("978-1234567890");
-        requestDto.setPrice(BigDecimal.valueOf(19.99));
-        requestDto.setDescription("This is a sample book description.");
-        requestDto.setCoverImage("https://example.com/book-cover.jpg");
+        when(bookMapper.toModel(REQUEST_DTO_BOOK_1)).thenReturn(VALID_BOOK_1);
+        when(bookRepository.save(VALID_BOOK_1)).thenReturn(VALID_BOOK_1);
+        when(bookMapper.toDto(VALID_BOOK_1)).thenReturn(BOOK_1_DTO);
 
-        Book book = new Book();
-        book.setTitle(requestDto.getTitle());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setPrice(requestDto.getPrice());
-        book.setDescription(requestDto.getDescription());
-        book.setCoverImage(requestDto.getCoverImage());
+        BookDto actualBookDto = bookService.save(REQUEST_DTO_BOOK_1);
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(1L);
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
-
-        when(bookMapper.toModel(requestDto)).thenReturn(book);
-        when(bookRepository.save(book)).thenReturn(book);
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
-
-        BookDto result = bookService.save(requestDto);
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(bookDto);
-        assertEquals(bookDto, result);
+        assertNotNull(actualBookDto);
+        assertThat(actualBookDto).isEqualTo(BOOK_1_DTO);
+        assertEquals(BOOK_1_DTO, actualBookDto);
         verifyNoMoreInteractions(bookRepository, bookMapper);
     }
 
@@ -94,37 +210,24 @@ class BookServiceImplTest {
             and pagination to retrieve all books.
             """)
     void getAll_ValidBookDataRange_ReturnAllBookDtoList() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Sample Book Title");
-        book.setAuthor("John Doe");
-        book.setIsbn("978-1234567890");
-        book.setPrice(BigDecimal.valueOf(19.99));
-        book.setDescription("This is a sample book description.");
-        book.setCoverImage("https://example.com/book-cover.jpg");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(book.getId());
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
-
         Pageable pageable = PageRequest.of(0, 10);
-        List<Book> books = Collections.singletonList(book);
+        List<Book> bookList = getBookList();
 
-        when(bookRepository.findAllWithCategory(pageable)).thenReturn(books);
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookRepository.findAllWithCategory(pageable)).thenReturn(bookList);
+        when(bookMapper.toDto(VALID_BOOK_1)).thenReturn(BOOK_1_DTO);
+        when(bookMapper.toDto(VALID_BOOK_2)).thenReturn(BOOK_2_DTO);
+        when(bookMapper.toDto(VALID_BOOK_3)).thenReturn(BOOK_3_DTO);
 
-        List<BookDto> bookDtoList = bookService.getAll(pageable);
+        List<BookDto> actualBookDtoList = bookService.getAll(pageable);
 
-        assertNotNull(bookDtoList);
-        assertThat(bookDtoList).hasSize(1);
-        assertThat(bookDtoList.get(0)).isEqualTo(bookDto);
-        verify(bookRepository, times(1)).findAllWithCategory(pageable);
-        verify(bookMapper, times(1)).toDto(book);
+        assertNotNull(actualBookDtoList);
+        assertThat(actualBookDtoList).hasSize(3);
+        assertEquals(BOOK_1_DTO, actualBookDtoList.get(0));
+        assertEquals(BOOK_2_DTO, actualBookDtoList.get(1));
+        assertEquals(BOOK_3_DTO, actualBookDtoList.get(2));
+        assertTrue(actualBookDtoList.contains(BOOK_1_DTO)
+                && actualBookDtoList.contains(BOOK_2_DTO)
+                && actualBookDtoList.contains(BOOK_3_DTO));
         verifyNoMoreInteractions(bookRepository, bookMapper);
     }
 
@@ -134,37 +237,15 @@ class BookServiceImplTest {
             to retrieve a book by its ID
             """)
     void getById_ValidBookId_ShouldReturnValidBookData() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Sample Book Title");
-        book.setAuthor("John Doe");
-        book.setIsbn("978-1234567890");
-        book.setPrice(BigDecimal.valueOf(19.99));
-        book.setDescription("This is a sample book description.");
-        book.setCoverImage("https://example.com/book-cover.jpg");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(book.getId());
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
-
-        Long bookId = 1L;
-
+        Long bookId = VALID_BOOK_1.getId();
         when(bookRepository.findByIdWithCategory(bookId))
-                .thenReturn(Optional.of(book));
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
+                .thenReturn(Optional.of(VALID_BOOK_1));
+        when(bookMapper.toDto(VALID_BOOK_1)).thenReturn(BOOK_1_DTO);
 
         BookDto result = bookService.getById(bookId);
 
         assertNotNull(result);
-        assertEquals(bookDto, result);
-        verify(bookRepository, times(1))
-                .findByIdWithCategory(bookId);
-        verify(bookMapper, times(1)).toDto(book);
+        assertEquals(BOOK_1_DTO, result);
         verifyNoMoreInteractions(bookRepository, bookMapper);
     }
 
@@ -199,41 +280,15 @@ class BookServiceImplTest {
             to update book data by ID
             """)
     void update_ValidCreateBookRequestDto_ReturnBookDto() {
-        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
-        bookRequestDto.setTitle("Sample Book Title");
-        bookRequestDto.setAuthor("John Doe");
-        bookRequestDto.setIsbn("978-1234567890");
-        bookRequestDto.setPrice(BigDecimal.valueOf(19.99));
-        bookRequestDto.setDescription("This is a sample book description.");
-        bookRequestDto.setCoverImage("https://example.com/book-cover.jpg");
+        when(bookMapper.toModel(REQUEST_DTO_BOOK_1)).thenReturn(VALID_BOOK_1_UPDATED);
+        when(bookRepository.save(VALID_BOOK_1_UPDATED)).thenReturn(VALID_BOOK_1_UPDATED);
+        when(bookMapper.toDto(VALID_BOOK_1_UPDATED)).thenReturn(BOOK_1_DTO_UPDATED);
 
-        Book updatedBook = new Book();
-        updatedBook.setId(1L);
-        updatedBook.setTitle("The Great Gatsby");
-        updatedBook.setAuthor("F. Scott Fitzgerald");
-        updatedBook.setIsbn("978-0743273565");
-        updatedBook.setPrice(BigDecimal.valueOf(50));
-        updatedBook.setDescription("The Great Gatsby is a classic novel");
-        updatedBook.setCoverImage("https://example.com/great-gatsby-cover.jpg");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(updatedBook.getId());
-        bookDto.setTitle(updatedBook.getTitle());
-        bookDto.setAuthor(updatedBook.getAuthor());
-        bookDto.setIsbn(updatedBook.getIsbn());
-        bookDto.setPrice(updatedBook.getPrice());
-        bookDto.setDescription(updatedBook.getDescription());
-        bookDto.setCoverImage(updatedBook.getCoverImage());
-
-        when(bookMapper.toModel(bookRequestDto)).thenReturn(updatedBook);
-        when(bookRepository.save(updatedBook)).thenReturn(updatedBook);
-        when(bookMapper.toDto(updatedBook)).thenReturn(bookDto);
-
-        Long bookId = 1L;
-        BookDto result = bookService.update(bookId, bookRequestDto);
+        Long bookId = VALID_BOOK_1.getId();
+        BookDto result = bookService.update(bookId, REQUEST_DTO_BOOK_1);
 
         assertNotNull(result);
-        assertEquals(bookDto, result);
+        assertEquals(BOOK_1_DTO_UPDATED, result);
     }
 
     @Test
@@ -242,40 +297,22 @@ class BookServiceImplTest {
             The method should return all books matching the specified input parameters
             """)
     void search_ValidParameters() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Sample Book Title");
-        book.setAuthor("John Doe");
-        book.setIsbn("978-1234567890");
-        book.setPrice(BigDecimal.valueOf(19.99));
-        book.setDescription("This is a sample book description.");
-        book.setCoverImage("https://example.com/book-cover.jpg");
-
-        BookDto bookDto = new BookDto();
-        bookDto.setId(book.getId());
-        bookDto.setTitle(book.getTitle());
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setIsbn(book.getIsbn());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setDescription(book.getDescription());
-        bookDto.setCoverImage(book.getCoverImage());
 
         BookSearchParametersDto bookSearchParametersDto = new BookSearchParametersDto(
-                new String[]{"Sample Book Title", "The Great Gatsby"},
-                new String[]{"John Doe", "F. Scott Fitzgerald"},
+                new String[]{VALID_BOOK_1.getTitle()},
+                new String[]{VALID_BOOK_1.getDescription()},
                 new String[]{"1"}
         );
-
         when(bookSpecificationBuilder.build(bookSearchParametersDto))
                 .thenReturn(bookSpecification);
         when(bookRepository.findAll(
                 eq(bookSpecification),
                 any(Pageable.class)))
-                .thenReturn(new PageImpl<>(Collections.singletonList(book)));
-        when(bookMapper.toDto(book)).thenReturn(bookDto);
+                .thenReturn(new PageImpl<>(Collections.singletonList(VALID_BOOK_1)));
+        when(bookMapper.toDto(VALID_BOOK_1)).thenReturn(BOOK_1_DTO);
         Pageable pageable = PageRequest.of(0, 10);
         List<BookDto> result = bookService.search(pageable, bookSearchParametersDto);
-        List<BookDto> expectedBookDto = Collections.singletonList(bookDto);
+        List<BookDto> expectedBookDto = Collections.singletonList(BOOK_1_DTO);
 
         assertNotNull(result);
         assertEquals(expectedBookDto, result);
@@ -287,34 +324,31 @@ class BookServiceImplTest {
             The method should return all books matching the specified book category ID
             """)
     void getByCategoryId_ValidCategoryId_ReturnBookDtoWithoutCategoryId() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setTitle("Sample Book Title");
-        book.setAuthor("John Doe");
-        book.setIsbn("978-1234567890");
-        book.setPrice(BigDecimal.valueOf(19.99));
-        book.setDescription("This is a sample book description.");
-        book.setCoverImage("https://example.com/book-cover.jpg");
 
-        BookDtoWithoutCategoryId bookDtoWithoutCategoryId = new BookDtoWithoutCategoryId();
-        bookDtoWithoutCategoryId.setId(book.getId());
-        bookDtoWithoutCategoryId.setTitle(book.getTitle());
-        bookDtoWithoutCategoryId.setAuthor(book.getAuthor());
-        bookDtoWithoutCategoryId.setIsbn(book.getIsbn());
-        bookDtoWithoutCategoryId.setPrice(book.getPrice());
-        bookDtoWithoutCategoryId.setDescription(book.getDescription());
-        bookDtoWithoutCategoryId.setCoverImage(book.getCoverImage());
-
-        Long categoryId = 1L;
-        List<Book> books = Collections.singletonList(book);
-        List<BookDtoWithoutCategoryId> bookDtoList = Collections
-                .singletonList(bookDtoWithoutCategoryId);
+        Long categoryId = VALID_CATEGORY_2.getId();
+        List<Book> books = getBookList();
         when(bookRepository.findAllByCategoryId(categoryId)).thenReturn(books);
-        when(bookMapper.toDtoWithoutCategories(book)).thenReturn(bookDtoList.get(0));
+        when(bookMapper.toDtoWithoutCategories(VALID_BOOK_1))
+                .thenReturn(BOOK_1_DTO_WITHOUT_CATEGORY_ID);
+        when(bookMapper.toDtoWithoutCategories(VALID_BOOK_2))
+                .thenReturn(BOOK_2_DTO_WITHOUT_CATEGORY_ID);
+        when(bookMapper.toDtoWithoutCategories(VALID_BOOK_3))
+                .thenReturn(BOOK_3_DTO_WITHOUT_CATEGORY_ID);
 
-        List<BookDtoWithoutCategoryId> result = bookService.getByCategoryId(categoryId);
+        List<BookDtoWithoutCategoryId> actualBookDtoList = bookService.getByCategoryId(categoryId);
 
-        assertThat(bookDtoList).hasSize(1);
-        assertEquals(bookDtoList.get(0), result.get(0));
+        assertThat(actualBookDtoList).hasSize(3);
+        assertTrue(actualBookDtoList.contains(BOOK_1_DTO_WITHOUT_CATEGORY_ID)
+                && actualBookDtoList.contains(BOOK_2_DTO_WITHOUT_CATEGORY_ID)
+                && actualBookDtoList.contains(BOOK_3_DTO_WITHOUT_CATEGORY_ID));
+    }
+
+    @NotNull
+    private static List<Book> getBookList() {
+        List<Book> bookList = new ArrayList<>();
+        bookList.add(VALID_BOOK_1);
+        bookList.add(VALID_BOOK_2);
+        bookList.add(VALID_BOOK_3);
+        return bookList;
     }
 }
