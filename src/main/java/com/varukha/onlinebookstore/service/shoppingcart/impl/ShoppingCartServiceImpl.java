@@ -49,11 +49,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto getShoppingCartByUserId(Long id) {
+    public ShoppingCartDto getShoppingCart() {
         return shoppingCartRepository.findByUserId(getAuthenticatedUserId())
                 .map(shoppingCartMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Shopping cart by user id: "
-                        + id + " not found"));
+                        + getAuthenticatedUserId() + " not found"));
     }
 
     @Override

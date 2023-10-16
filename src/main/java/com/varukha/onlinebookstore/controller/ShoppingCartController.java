@@ -30,25 +30,27 @@ public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Save the new cart item",
             description = "Save the new cart item to shopping cart")
     public CartItemDto saveCartItem(@RequestBody @Valid CreateCartItemRequestDto requestDto) {
         return shoppingCartService.createCartItem(requestDto);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get shopping cart by user id",
             description = "Get shopping cart with all added cart items"
                     + " by user identification number")
-    public ShoppingCartDto getShoppingCartById(@PathVariable Long id) {
-        return shoppingCartService.getShoppingCartByUserId(id);
+    public ShoppingCartDto getShoppingCart() {
+        return shoppingCartService.getShoppingCart();
     }
 
     @DeleteMapping("cart-items/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Delete the cart item by user id",
             description = "Delete the recently added cart items from"
                     + " shopping cart by shopping cart identification number")
@@ -57,6 +59,7 @@ public class ShoppingCartController {
     }
 
     @PutMapping("cart-items/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Update the cart item quantity by cart item id",
             description = "Update the cart item quantity in shopping"
