@@ -14,9 +14,12 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
+    @Mapping(target = "categoriesId", ignore = true)
     BookDto toDto(Book book);
 
+    @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "id", ignore = true)
     Book toModel(CreateBookRequestDto requestDto);
 
     BookDtoWithoutCategoryId toDtoWithoutCategories(Book book);
