@@ -23,5 +23,3 @@ databaseChangeLog:
       file: db/changelog/changes/11-create-orders-table.yaml
   - include:
       file: db/changelog/changes/12-create-orders-item-table.yaml
-  - include:
-      file: db/changelog/changes/13-insert-users-admin-role-and-user-role.yaml
