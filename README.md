@@ -415,8 +415,12 @@ In this section, you will find out how the process of running application.
 To run the application without Docker, follow these steps:
 
 - ***Clone the project repository from the version control system of your choice (e.g., Git) to your local machine.***
+   ```bash
+    git clone git@github.com:DmytroV95/online-book-store.git
+    ```
+  or
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/DmytroV95/online-book-store.git
     ``` 
 - ***Configure Application Properties:***
  Navigate to the src/main/resources directory and locate the application.properties file. Update this file with the necessary configuration, such as the database connection details and other environment-specific settings.
