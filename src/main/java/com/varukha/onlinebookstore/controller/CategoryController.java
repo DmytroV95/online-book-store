@@ -29,6 +29,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Save a new category",
             description = "Save a new book category")
@@ -37,6 +38,7 @@ public class CategoryController {
     }
 
     @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get all categories",
             description = "Get list of all available categories")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
@@ -45,6 +47,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @Operation(summary = "Get the book category by id",
             description = "Get the existing book category by identification number")
@@ -53,6 +56,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update the book category by id",
             description = "Update the existing book information by identification number")

@@ -9,9 +9,6 @@ import com.varukha.onlinebookstore.mapper.OrderItemsMapper;
 import com.varukha.onlinebookstore.mapper.OrderMapper;
 import com.varukha.onlinebookstore.model.Order;
 import com.varukha.onlinebookstore.model.OrderItem;
-import com.varukha.onlinebookstore.model.ShoppingCart;
-import com.varukha.onlinebookstore.model.User;
-import com.varukha.onlinebookstore.repository.cartitem.CartItemRepository;
 import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.order.OrderRepository;
 import com.varukha.onlinebookstore.repository.orderitem.OrderItemRepository;
@@ -38,7 +35,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemsMapper orderItemsMapper;
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
-    private final CartItemRepository cartItemRepository;
     private final ShoppingCartService shoppingCartService;
     private final ShoppingCartRepository shoppingCartRepository;
 
