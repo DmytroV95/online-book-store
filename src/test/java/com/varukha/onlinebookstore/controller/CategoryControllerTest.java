@@ -1,7 +1,6 @@
 package com.varukha.onlinebookstore.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -11,11 +10,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.varukha.onlinebookstore.dto.book.response.BookDtoWithoutCategoryId;
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
 import com.varukha.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
@@ -39,12 +39,19 @@ import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
     protected static MockMvc mockMvc;
-    private static final CreateCategoryRequestDto VALID_CREATE_REQUEST_DTO =
+    private static final CreateCategoryRequestDto VALID_CREATE_REQUEST_DTO_1 =
             new CreateCategoryRequestDto();
-    private static final CategoryDto VALID_CATEGORY_DTO = new CategoryDto();
+    private static final CreateCategoryRequestDto VALID_CREATE_REQUEST_DTO_2 =
+            new CreateCategoryRequestDto();
+    private static final CreateCategoryRequestDto VALID_CREATE_REQUEST_DTO_3 =
+            new CreateCategoryRequestDto();
+    private static final CreateCategoryRequestDto VALID_CREATE_REQUEST_DTO_4 =
+            new CreateCategoryRequestDto();
+    private static final CategoryDto VALID_CATEGORY_DTO_1 = new CategoryDto();
+    private static final CategoryDto VALID_CATEGORY_DTO_2 = new CategoryDto();
+    private static final CategoryDto VALID_CATEGORY_DTO_3 = new CategoryDto();
+    private static final CategoryDto VALID_CATEGORY_DTO_4 = new CategoryDto();
     private static final CategoryDto VALID_GET_RESPONSE = new CategoryDto();
-    private static final BookDtoWithoutCategoryId VALID_BOOK_WITHOUT_CATEGORY =
-            new BookDtoWithoutCategoryId();
     private static final CreateCategoryRequestDto VALID_UPDATE_REQUEST_DTO =
             new CreateCategoryRequestDto();
     private static final CategoryDto VALID_UPDATE_DTO = new CategoryDto();
@@ -92,11 +99,33 @@ class CategoryControllerTest {
 
     @BeforeEach
     public void setupTestData() {
-        VALID_CREATE_REQUEST_DTO.setName("Historical Fiction");
-        VALID_CREATE_REQUEST_DTO.setDescription("Historical Fiction category description");
+        VALID_CREATE_REQUEST_DTO_1.setName("Novel");
+        VALID_CREATE_REQUEST_DTO_1.setDescription("Novel category description");
 
-        VALID_CATEGORY_DTO.setName(VALID_CREATE_REQUEST_DTO.getName());
-        VALID_CATEGORY_DTO.setDescription(VALID_CREATE_REQUEST_DTO.getDescription());
+        VALID_CATEGORY_DTO_1.setId(1L);
+        VALID_CATEGORY_DTO_1.setName(VALID_CREATE_REQUEST_DTO_1.getName());
+        VALID_CATEGORY_DTO_1.setDescription(VALID_CREATE_REQUEST_DTO_1.getDescription());
+
+        VALID_CREATE_REQUEST_DTO_2.setName("Science Fiction");
+        VALID_CREATE_REQUEST_DTO_2.setDescription("Science Fiction category description");
+
+        VALID_CATEGORY_DTO_2.setId(2L);
+        VALID_CATEGORY_DTO_2.setName(VALID_CREATE_REQUEST_DTO_2.getName());
+        VALID_CATEGORY_DTO_2.setDescription(VALID_CREATE_REQUEST_DTO_2.getDescription());
+
+        VALID_CREATE_REQUEST_DTO_3.setName("Fantasy");
+        VALID_CREATE_REQUEST_DTO_3.setDescription("Fantasy category description");
+
+        VALID_CATEGORY_DTO_3.setId(3L);
+        VALID_CATEGORY_DTO_3.setName(VALID_CREATE_REQUEST_DTO_3.getName());
+        VALID_CATEGORY_DTO_3.setDescription(VALID_CREATE_REQUEST_DTO_3.getDescription());
+
+        VALID_CREATE_REQUEST_DTO_4.setName("Historical Fiction");
+        VALID_CREATE_REQUEST_DTO_4.setDescription("Historical Fiction category description");
+
+        VALID_CATEGORY_DTO_4.setId(4L);
+        VALID_CATEGORY_DTO_4.setName(VALID_CREATE_REQUEST_DTO_4.getName());
+        VALID_CATEGORY_DTO_4.setDescription(VALID_CREATE_REQUEST_DTO_4.getDescription());
 
         VALID_GET_RESPONSE.setName("Science Fiction");
         VALID_GET_RESPONSE.setDescription("Science Fiction category description");
@@ -104,6 +133,7 @@ class CategoryControllerTest {
         VALID_UPDATE_REQUEST_DTO.setName("Updated title");
         VALID_UPDATE_REQUEST_DTO.setDescription("Updated description");
 
+        VALID_UPDATE_DTO.setId(VALID_CATEGORY_DTO_3.getId());
         VALID_UPDATE_DTO.setName(VALID_UPDATE_REQUEST_DTO.getName());
         VALID_UPDATE_DTO.setDescription(VALID_UPDATE_REQUEST_DTO.getDescription());
     }
@@ -115,7 +145,7 @@ class CategoryControllerTest {
             with valid request parameters
              """)
     void save_ValidCategoryDtoRequestData_ReturnCategoryDto() throws Exception {
-        String jsonRequest = objectMapper.writeValueAsString(VALID_CREATE_REQUEST_DTO);
+        String jsonRequest = objectMapper.writeValueAsString(VALID_CREATE_REQUEST_DTO_4);
         MvcResult result = mockMvc.perform(post("/categories")
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -124,7 +154,7 @@ class CategoryControllerTest {
         CategoryDto actualCategoryDto = objectMapper.readValue(result.getResponse()
                 .getContentAsString(), CategoryDto.class);
         assertNotNull(actualCategoryDto);
-        EqualsBuilder.reflectionEquals(VALID_CATEGORY_DTO,
+        EqualsBuilder.reflectionEquals(VALID_CATEGORY_DTO_4,
                 actualCategoryDto,
                 "id");
     }
@@ -136,6 +166,8 @@ class CategoryControllerTest {
             and pagination to retrieve all book categories.
             """)
     void getAll_ValidCategoryDtoRequestData_ReturnCategoryDto() throws Exception {
+        List<CategoryDto> expected = List.of(VALID_CATEGORY_DTO_1, VALID_CATEGORY_DTO_2,
+                VALID_UPDATE_DTO, VALID_CATEGORY_DTO_4);
         MvcResult result = mockMvc.perform(get("/categories")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -144,12 +176,7 @@ class CategoryControllerTest {
                 .getContentAsByteArray(), CategoryDto[].class);
         assertNotNull(actualCategoryDto);
         assertEquals(4, actualCategoryDto.length);
-        assertNotEquals(3, actualCategoryDto.length);
-        assertNotEquals(5, actualCategoryDto.length);
-        EqualsBuilder.reflectionEquals(
-                VALID_GET_RESPONSE,
-                actualCategoryDto[2],
-                "id");
+        assertEquals(expected, Arrays.stream(actualCategoryDto).toList());
     }
 
     @Test
@@ -190,15 +217,14 @@ class CategoryControllerTest {
                 .getContentAsString(), CategoryDto.class);
         assertNotNull(actualCategoryDto);
         EqualsBuilder.reflectionEquals(VALID_UPDATE_DTO,
-                actualCategoryDto,
-                "id");
+                actualCategoryDto, "id");
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @DisplayName("Test the 'deleteById' endpoint with a valid book ID")
     void deleteById_ValidCategoryId_ReturnVoid() throws Exception {
-        mockMvc.perform(delete("/categories/3")
+        mockMvc.perform(delete("/categories/4")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }

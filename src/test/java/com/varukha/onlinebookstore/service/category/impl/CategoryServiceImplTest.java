@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,9 +12,9 @@ import com.varukha.onlinebookstore.exception.EntityNotFoundException;
 import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +27,13 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceImplTest {
+    private static final Category VALID_CATEGORY_1 = new Category();
+    private static final Category VALID_CATEGORY_2 = new Category();
+    private static final Category UPADATED_CATEGORY = new Category();
+    private static final CategoryDto CATEGORY_DTO_1 = new CategoryDto();
+    private static final CategoryDto CATEGORY_DTO_2 = new CategoryDto();
+    private static final CategoryDto UPDATED_CATEGORY_DTO = new CategoryDto();
+
     @InjectMocks
     private CategoryServiceImpl categoryService;
     @Mock
@@ -35,33 +41,52 @@ class CategoryServiceImplTest {
     @Mock
     private CategoryMapper categoryMapper;
 
+    @BeforeEach
+    void setUp() {
+        VALID_CATEGORY_1.setId(1L);
+        VALID_CATEGORY_1.setName("Science Fiction");
+        VALID_CATEGORY_1.setDescription("Science Fiction category description");
+
+        CATEGORY_DTO_1.setId(VALID_CATEGORY_1.getId());
+        CATEGORY_DTO_1.setName(VALID_CATEGORY_1.getName());
+        CATEGORY_DTO_1.setDescription(VALID_CATEGORY_1.getDescription());
+
+        VALID_CATEGORY_2.setId(2L);
+        VALID_CATEGORY_2.setName("Mystery");
+        VALID_CATEGORY_2.setDescription("Mystery category description");
+
+        CATEGORY_DTO_2.setId(VALID_CATEGORY_2.getId());
+        CATEGORY_DTO_2.setName(VALID_CATEGORY_2.getName());
+        CATEGORY_DTO_2.setDescription(VALID_CATEGORY_2.getDescription());
+
+        UPADATED_CATEGORY.setName("Fantasy");
+        UPADATED_CATEGORY.setDescription("Fantasy category description");
+
+        UPDATED_CATEGORY_DTO.setId(VALID_CATEGORY_1.getId());
+        UPDATED_CATEGORY_DTO.setName(UPADATED_CATEGORY.getName());
+        UPDATED_CATEGORY_DTO.setDescription(UPADATED_CATEGORY.getDescription());
+    }
+
     @Test
     @DisplayName("""
             Test the 'getAll' method with valid request parameters
             and pagination to retrieve all book categories.
             """)
     void getAll_ValidCategoryDtoRequestData_ReturnCategoryDto() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Novel");
-        category.setDescription("Novel category description.");
-
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(categoryDto.getName());
-        categoryDto.setDescription(categoryDto.getDescription());
-
         Pageable pageable = PageRequest.of(0, 10);
-        List<Category> categories = Collections.singletonList(category);
+        List<Category> expectedCategoryList = List.of(VALID_CATEGORY_1, VALID_CATEGORY_2);
 
         when(categoryRepository.findAll(pageable))
-                .thenReturn(new PageImpl<>(categories));
-        when(categoryMapper.toDto(category)).thenReturn(categoryDto);
+                .thenReturn(new PageImpl<>(expectedCategoryList));
+        when(categoryMapper.toDto(VALID_CATEGORY_1)).thenReturn(CATEGORY_DTO_1);
+        when(categoryMapper.toDto(VALID_CATEGORY_2)).thenReturn(CATEGORY_DTO_2);
 
         List<CategoryDto> categoryDtoList = categoryService.getAll(pageable);
 
         assertNotNull(categoryDtoList);
-        assertThat(categoryDtoList).hasSize(1);
-        assertThat(categoryDtoList.get(0)).isEqualTo(categoryDto);
+        assertEquals(2, categoryDtoList.size());
+        assertEquals(CATEGORY_DTO_1, categoryDtoList.get(0));
+        assertEquals(CATEGORY_DTO_2, categoryDtoList.get(1));
     }
 
     @Test
@@ -70,24 +95,15 @@ class CategoryServiceImplTest {
             for retrieving a book category by its ID.
             """)
     void getById_ValidCategoryId_ReturnCategoryDto() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Novel");
-        category.setDescription("Novel category description.");
-
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(categoryDto.getName());
-        categoryDto.setDescription(categoryDto.getDescription());
-
-        Long categoryId = 1L;
+        Long categoryId = VALID_CATEGORY_1.getId();
         when(categoryRepository.findById(categoryId))
-                .thenReturn(Optional.of(category));
-        when(categoryMapper.toDto(category)).thenReturn(categoryDto);
+                .thenReturn(Optional.of(VALID_CATEGORY_1));
+        when(categoryMapper.toDto(VALID_CATEGORY_1)).thenReturn(CATEGORY_DTO_1);
 
         CategoryDto result = categoryService.getById(categoryId);
 
         assertNotNull(result);
-        assertEquals(categoryDto, result);
+        assertEquals(CATEGORY_DTO_1, result);
     }
 
     @Test
@@ -113,23 +129,14 @@ class CategoryServiceImplTest {
             with valid request parameters
              """)
     void save_ValidCategoryDtoRequestData_ReturnCategoryDto() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Novel");
-        category.setDescription("Novel category description.");
+        when(categoryMapper.toModel(CATEGORY_DTO_1)).thenReturn(VALID_CATEGORY_1);
+        when(categoryRepository.save(VALID_CATEGORY_1)).thenReturn(VALID_CATEGORY_1);
+        when(categoryMapper.toDto(VALID_CATEGORY_1)).thenReturn(CATEGORY_DTO_1);
 
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(categoryDto.getName());
-        categoryDto.setDescription(categoryDto.getDescription());
-
-        when(categoryMapper.toModel(categoryDto)).thenReturn(category);
-        when(categoryRepository.save(category)).thenReturn(category);
-        when(categoryMapper.toDto(category)).thenReturn(categoryDto);
-
-        CategoryDto result = categoryService.save(categoryDto);
+        CategoryDto result = categoryService.save(CATEGORY_DTO_1);
 
         assertNotNull(result);
-        assertThat(result).isEqualTo(categoryDto);
+        assertThat(result).isEqualTo(CATEGORY_DTO_1);
     }
 
     @Test
@@ -138,27 +145,14 @@ class CategoryServiceImplTest {
             to update book category data by ID
             """)
     void update_ValidCategoryDtoRequestData_ReturnCategoryDto() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName("Novel");
-        category.setDescription("Novel category description.");
+        when(categoryMapper.toModel(UPDATED_CATEGORY_DTO)).thenReturn(UPADATED_CATEGORY);
+        when(categoryRepository.save(UPADATED_CATEGORY)).thenReturn(UPADATED_CATEGORY);
+        when(categoryMapper.toDto(UPADATED_CATEGORY)).thenReturn(UPDATED_CATEGORY_DTO);
 
-        Category updatedCategory = new Category();
-        category.setName("Science Fiction");
-        category.setDescription("Science Fiction category description.");
-
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(updatedCategory.getName());
-        categoryDto.setDescription(updatedCategory.getDescription());
-
-        when(categoryMapper.toModel(categoryDto)).thenReturn(updatedCategory);
-        when(categoryRepository.save(updatedCategory)).thenReturn(updatedCategory);
-        when(categoryMapper.toDto(updatedCategory)).thenReturn(categoryDto);
-
-        Long categoryId = 1L;
-        CategoryDto result = categoryService.update(categoryId, categoryDto);
+        Long categoryId = UPADATED_CATEGORY.getId();
+        CategoryDto result = categoryService.update(categoryId, UPDATED_CATEGORY_DTO);
         assertNotNull(result);
-        assertEquals(categoryDto, result);
+        assertEquals(UPDATED_CATEGORY_DTO, result);
     }
 
     @Test
@@ -166,6 +160,6 @@ class CategoryServiceImplTest {
     void deleteById_ValidCategoryId_ReturnVoid() {
         Long categoryId = 1L;
         categoryService.deleteById(categoryId);
-        verify(categoryRepository, times(1)).deleteById(categoryId);
+        verify(categoryRepository).deleteById(categoryId);
     }
 }
