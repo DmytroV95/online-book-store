@@ -1,9 +1,9 @@
 package com.varukha.onlinebookstore.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -174,27 +174,6 @@ class ShoppingCartControllerTest {
                 VALID_CART_ITEM_RESPONSE,
                 actual);
     }
-
-//    @Test
-//    @WithMockUser(username = "alice@gmail.com")
-//    @DisplayName("""
-//            Test the 'getShoppingCartById' endpoint in order to get
-//            user shopping cart by valid shopping cart ID
-//             """)
-//    void getShoppingCart_ReturnShoppingCartDto() throws Exception {
-//        MvcResult result = mockMvc.perform(get("/carts")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        ShoppingCartDto actualShoppingCartDto = objectMapper.readValue(
-//                result.getResponse().getContentAsString(),
-//                ShoppingCartDto.class
-//        );
-//        assertNotNull(actualShoppingCartDto);
-//        assertNotNull(actualShoppingCartDto.getId());
-//        assertEquals(SHOPPING_CART.getId(), actualShoppingCartDto.getId());
-//        EqualsBuilder.reflectionEquals(SHOPPING_CART, actualShoppingCartDto);
-//    }
 
     @Test
     @WithMockUser(username = "alice@gmail.com")

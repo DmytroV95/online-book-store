@@ -1,6 +1,6 @@
 # Online Book Store
 ####
-### Glad to introduce the Online Book Store application 
+### Glad to introduce the Online Book Store application
 This application is designed to power an online book store, allowing users to browse, search for, and purchase books. It also provides administrative functionalities for managing books, categories, and orders.
 ####
 I appreciate your time, so you can watch the [project presentation](#content).
@@ -11,20 +11,23 @@ I appreciate your time, so you can watch the [project presentation](#content).
 2. [Technologies and Tools Used](#technologies-and-tools-used)
 3. [Application API](#application-api)
 4. [Security](#security)
-5. [Running the Application with Docker](#running-the-application-with-docker)
-6. [Instructions for importing data](#instructions-for-importing-data)
+5. [Running the Application without Docker](#to-run-locally-without-docker)
+6. [Running the Application with Docker](#to-run-using-docker)
+7. [Instructions for Importing a Test Data Set into Postman](#instructions-for-importing-data)
+8. [Accessing Swagger Documentation in a Web Browser](#accessing-swagger-documentation-in-a-web-browser)
+9. [Contributing](#contributing)
 
 ## Domain Models (Entities)
 
- - Book: Represents a book available in the store.
- - User: Contains information about the registered user including their authentication details and personal information.
- - Role: Represents the role of a user in the system, for example, admin or user.
- - Category: Represents a category that a book can belong to.
- - Role: Represents the role of a user in the system, for example, admin or user.
- - ShoppingCart: Represents a category that book can belong to.
- - CartItem: Represents an item in a user's shopping cart.
- - Order: Represents an order placed by a user.
- - OrderItem: Represents an item in a user's order.
+- Book: Represents a book available in the store.
+- User: Contains information about the registered user including their authentication details and personal information.
+- Role: Represents the role of a user in the system, for example, admin or user.
+- Category: Represents a category that a book can belong to.
+- Role: Represents the role of a user in the system, for example, admin or user.
+- ShoppingCart: Represents a category that book can belong to.
+- CartItem: Represents an item in a user's shopping cart.
+- Order: Represents an order placed by a user.
+- OrderItem: Represents an item in a user's order.
 
 ## Technologies and Tools Used
 
@@ -62,7 +65,7 @@ To register as a new user and gain access to the system's features, please follo
 
 - **POST `/api/auth/register:`** with your registration details.
 
-   - Example request body:
+    - Example request body:
    ```json
    {
      "email": "john.doe@example.com",
@@ -73,7 +76,7 @@ To register as a new user and gain access to the system's features, please follo
      "shippingAddress": "123 Main St, City, Country"
    }
   ```
-  - Example of response body:
+    - Example of response body:
   ```json
   {
      "id": 1,
@@ -88,9 +91,9 @@ To register as a new user and gain access to the system's features, please follo
 ### User Login:
 If you are already a registered user, you can log in to access your account and perform various actions. To log in, please follow these steps:
 
-- **POST `/api/auth/login`** with your login credentials. 
+- **POST `/api/auth/login`** with your login credentials.
 
-   - Example request body:
+    - Example request body:
    ```json
    {
      "email": "john.doe@example.com",
@@ -401,19 +404,60 @@ In this section, we'll cover the security requirements and features of Online Bo
 - **DELETE:** `/api/categories/{id}` (Delete a category)
 - **PATCH:** `/api/orders/{id}` (Update order status)
 
-## Running the Application with Docker
-In this section, you will find out how the process of running application using Docker.
-- [Back to application content](#content)
-####
-### To run this application using Docker, please follow these steps:
+## Running the Application
 
+In this section, you will find out how the process of running application.
+- [Back to application content](#content)
+
+####
+### To run locally without Docker:
+
+To run the application without Docker, follow these steps:
+
+- ***Clone the project repository from the version control system of your choice (e.g., Git) to your local machine.***
+   ```bash
+    git clone git@github.com:DmytroV95/online-book-store.git
+    ```
+  or
+    ```bash
+    git clone https://github.com/DmytroV95/online-book-store.git
+    ``` 
+- ***Configure Application Properties:***
+  Navigate to the src/main/resources directory and locate the application.properties file. Update this file with the necessary configuration, such as the database connection details and other environment-specific settings.
+####
+- ***Database Setup:***
+  Ensure you have a MySQL database server installed and running. Create a database for your application and configure its details in the application.properties file.
+####
+- ***Build the Application:***
+  Open a terminal in the root directory of the project and use Maven to build the application.
+    ```bash
+    mvn clean install
+  ```
+####
+- ***Run the Application:***
+  Once the build is successful, you can run the application using the following command:
+    ```bash
+    java -jar target/your-application.jar
+  ```
+  Replace your-application.jar with the actual name of the generated JAR file.
+####
+- ***Access the Application:***
+  After the application is up and running, open your web browser and access the application at the specified endpoints.
+  By default, it might be available at http://localhost:8080 unless you've configured a different port in the application.properties file.
+####
+- [Use this instructions for testing an application](#instructions-for-importing-a-test-data-set-into-postman)
+
+####
+### To run using Docker:
+####
 - ***Docker Setup:*** Ensure that you have Docker installed on your system. You can download and install Docker from the official website: Docker Installation.
 ####
 - ***Docker Compose:*** The application is configured to use Docker Compose for orchestrating containers. Make sure you have Docker Compose installed as well. You can check if it's installed by running:
     ```bash
     docker-compose --version
     ```
-- ***Environment Variables:*** Ensure you have a ***.env*** file in project root directory with the necessary environment variables. These variables should include your database connection details and any secret keys required by application.
+- ***Environment Variables:*** Create the ***.env*** file  in project root directory with the necessary environment variables. These variables should include your database connection details and any secret keys required by application.
+  ***Use .env.sample file from application root directory as a sample data to connection with docker container with your custom properties.***
 ####
 - ***Build Docker Image:*** In your project root directory, open a terminal and run the following command to build a Docker image of application:
     ```bash
@@ -424,12 +468,14 @@ In this section, you will find out how the process of running application using 
     ```bash
     docker-compose up
     ```
-    This command will start the application and any required services (e.g., the database) defined in your docker-compose.yml file.
+  This command will start the application and any required services (e.g., the database) defined in your docker-compose.yml file.
 ####
 - ***Access the Application:*** After the containers are up and running, you can access your Spring Boot application at the specified endpoints.
+####
+- [Use this instructions for testing an application](#instructions-for-importing-a-test-data-set-into-postman)
 
 
-# Instructions for importing data
+# Instructions for Importing a Test Data Set into Postman
 In this section, instructions are provided for importing sample data into application, which can be particularly useful for testing and development purposes.
 - [Back to application content](#content)
 
@@ -482,14 +528,15 @@ You can create a new user or use an existing one as [admin](#logging-in-as-a-reg
 ####
 ## Accessing Swagger Documentation in a Web Browser
 In this section, instructions are provided for accessing the Swagger documentation directly from your web browser, allowing you to explore and interact with the API endpoints easily.
+- [Back to application content](#content)
 ### Follow these steps to access the Swagger documentation and explore API endpoints using a web browser:
 
- - Start the Application
- - Launch your preferred web browser (e.g., Chrome, Firefox, or Edge)
- - In the browser's address bar, enter the URL for the Swagger documentation
-   - If the application is running:
-      - locally: http://localhost:8080/api/swagger-ui/index.html
-      - using Docker: http://localhost:8088/api/swagger-ui/index.html
+- Start the Application
+- Launch your preferred web browser (e.g., Chrome, Firefox, or Edge)
+- In the browser's address bar, enter the URL for the Swagger documentation
+    - If the application is running:
+        - locally: http://localhost:8080/api/swagger-ui/index.html
+        - using Docker: http://localhost:8088/api/swagger-ui/index.html
 
 ### ***Authentication and Authorization in Swagger UI:***
 To gain access, use the [username and password](#logging-in-as-a-registered-user-role-admin) that you use to log in to the system.
@@ -501,13 +548,51 @@ Once you access the Swagger UI, you will be presented with a user-friendly inter
 Swagger UI offers an interactive way to understand, test, and work with ***Online Book Store*** API. Take your time to explore the available endpoints and make test requests as needed.
 
 1. ***Select an Endpoint:***
-To get detailed information about a specific endpoint, click on it in the Swagger UI. This will expand the endpoint and display details such as request parameters, request body models (if applicable), and example responses.
+   To get detailed information about a specific endpoint, click on it in the Swagger UI. This will expand the endpoint and display details such as request parameters, request body models (if applicable), and example responses.
 ####
 2. ***Test an Endpoint:***
-If you want to test an endpoint interactively, click the "Try it out" button next to the endpoint. This allows you to input parameters, execute requests, and view the responses directly within Swagger UI.
+   If you want to test an endpoint interactively, click the "Try it out" button next to the endpoint. This allows you to input parameters, execute requests, and view the responses directly within Swagger UI.
 ####
+3. ***Enjoy Your Exploring!***
 
-## ***Enjoy Your Exploring!***
-##
+####
+## Contributing
+
+I welcome contributions from the community! Whether you want to report a bug, suggest an enhancement, or submit code changes, here's how you can get started:
+- [Back to application content](#content)
+### Reporting Issues
+
+If you come across a bug or have a feature request, please [contact me](https://dmytro.varukha@gmail.com). Make sure to provide a clear and detailed description of the issue or feature request.
+
+### Contributing Code
+
+If you'd like to contribute code to this project, follow these steps:
+
+1. Fork the repository on GitHub.
+2. Clone your forked repository to your local machine.
+   ```bash
+   git clone https://github.com/your-username/your-project.git
+3. Create a new branch for your feature or bug fix.
+    ```bash
+    git checkout -b feature-branch-name
+4. Make your changes and commit them.
+    ```bash
+   git commit -m "Add new feature" (or "Fix bug" for bug fixes)
+5. Push your changes to your forked repository on GitHub.
+    ```bash
+   git push origin feature-branch-name
+6. Open a pull request (PR) on the main repository's GitHub page. Be sure to describe your changes in detail and reference the related issue if applicable.
+
+### Code Style
+Please follow our code style when contributing. Consistent code style makes it easier to review and maintain the project.
+
+### Code Reviews
+All contributions go through a code review process. Feedback and discussions may happen in the pull request. Be prepared to make changes to your code based on the feedback received.
+
+### License
+By contributing to this project, you agree to license your contributions under the project's  MIT license.
+
+## Thank you for contributing to this project! Your help is greatly appreciated.
+
 - [Back to application content](#content)
 #

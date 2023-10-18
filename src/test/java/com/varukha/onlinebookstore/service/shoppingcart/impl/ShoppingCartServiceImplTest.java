@@ -177,7 +177,8 @@ class ShoppingCartServiceImplTest {
     void getShoppingCart_ReturnShoppingCartDto() {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(authentication.getPrincipal()).thenReturn(USER);
-        when(shoppingCartRepository.findByUserId(USER.getId())).thenReturn(Optional.of(SHOPPING_CART));
+        when(shoppingCartRepository.findByUserId(USER.getId()))
+                .thenReturn(Optional.of(SHOPPING_CART));
         when(shoppingCartMapper.toDto(SHOPPING_CART)).thenReturn(SHOPPING_CART_RESPONSE_DTO);
         ShoppingCartDto result = shoppingCartService.getShoppingCart();
 
@@ -206,7 +207,8 @@ class ShoppingCartServiceImplTest {
         when(cartItemRepository.save(CART_ITEM)).thenReturn(UPDATED_CART_ITEM);
         when(cartItemMapper.toDto(UPDATED_CART_ITEM)).thenReturn(UPDATED_CART_ITEM_RESPONSE_DTO);
 
-        CartItemDto result = shoppingCartService.updateCartItemQuantity(cartItemId, UPDATE_CART_ITEM_REQUEST_DTO);
+        CartItemDto result = shoppingCartService
+                .updateCartItemQuantity(cartItemId, UPDATE_CART_ITEM_REQUEST_DTO);
         assertNotNull(result);
         assertEquals(UPDATED_CART_ITEM_RESPONSE_DTO.getQuantity(), result.getQuantity());
     }

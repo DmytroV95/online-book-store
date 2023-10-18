@@ -1,0 +1,10 @@
+DELETE FROM user;
+DELETE FROM role;
+DELETE FROM user_role;
+DELETE FROM book;
+DELETE FROM category;
+DELETE FROM book_category;
+DELETE FROM shopping_cart;
+DELETE FROM cart_item;
+DELETE FROM orders;
+DELETE FROM orders_item;

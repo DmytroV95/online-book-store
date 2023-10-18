@@ -16,12 +16,13 @@ import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ShoppingCartRepositoryTest {
-    @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
     private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_CREATE_SHOPPING_CART =
             "classpath:database/shoppingcart/create-shopping-cart-for-user.sql";
     private static final String SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_SHOPPING_CART =
             "classpath:database/shoppingcart/remove-user-shopping-cart.sql";
+
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
 
     @Test
     @DisplayName("""
