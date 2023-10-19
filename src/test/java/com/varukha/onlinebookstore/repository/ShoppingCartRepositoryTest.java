@@ -1,9 +1,10 @@
-package com.varukha.onlinebookstore.repository.shoppingcart;
+package com.varukha.onlinebookstore.repository;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.varukha.onlinebookstore.model.ShoppingCart;
 import com.varukha.onlinebookstore.model.User;
+import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.order.impl;
+package com.varukha.onlinebookstore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +25,7 @@ import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.order.OrderRepository;
 import com.varukha.onlinebookstore.repository.orderitem.OrderItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
+import com.varukha.onlinebookstore.service.order.impl.OrderServiceImpl;
 import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartService;
 import com.varukha.onlinebookstore.service.user.UserService;
 import java.math.BigDecimal;
@@ -216,7 +217,8 @@ class OrderServiceImplTest {
         Pageable pageable = PageRequest.of(0, 10);
         List<Order> orderList = List.of(VALID_ORDER_1, VALID_ORDER_2);
 
-        when(orderRepository.findAllOrders(pageable)).thenReturn(orderList);
+        when(userService.getAuthenticatedUser()).thenReturn(USER);
+        when(orderRepository.findAllByUserId(pageable, USER.getId())).thenReturn(orderList);
         when(orderMapper.toDto(VALID_ORDER_1)).thenReturn(VALID_ORDER_DTO_1);
         when(orderMapper.toDto(VALID_ORDER_2)).thenReturn(VALID_ORDER_DTO_2);
 
@@ -229,14 +231,14 @@ class OrderServiceImplTest {
 
         assertTrue(actualOrderDtoList.contains(VALID_ORDER_DTO_1)
                 && actualOrderDtoList.contains(VALID_ORDER_DTO_2));
-        verify(orderRepository).findAllOrders(pageable);
+        verify(orderRepository).findAllByUserId(pageable, USER.getId());
         verifyNoMoreInteractions(orderRepository, orderMapper);
     }
 
     @Test
     @DisplayName("""
-            Test the 'getById' method with valid request parameters
-            to retrieve a book by its ID
+            Test the 'getAllOrderItemsByOrderId' method to retrieve all order item
+            by valid order ID
             """)
     void getAllOrderItemsByOrderId_ValidOrderItemsId_ReturnSetOfOrderItemDto() {
         Long orderId = VALID_ORDER_2.getId();
@@ -261,7 +263,7 @@ class OrderServiceImplTest {
             Test the 'getOrderItemFromOrderById' method to retrieve a order item
             from order by order ID and order item ID with valid IDs
             """)
-    void getOrderItemFromOrderById_ValidOrderIdAndOrderItemIs_ReturnOrderItemDto() {
+    void getOrderItemFromOrderById_ValidOrderIdAndOrderItemId_ReturnOrderItemDto() {
         Long orderItemId = VALID_ORDER_ITEM_2.getId();
         Long orderId = VALID_ORDER_2.getId();
         when(orderItemRepository.findOrderItemByIdAndOrderId(orderItemId, orderId))

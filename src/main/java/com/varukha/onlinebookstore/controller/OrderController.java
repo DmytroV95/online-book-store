@@ -50,6 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @Operation(summary = "Get all OrderItems in user's order",
             description = "Retrieve all OrderItems for a specific order by order"
@@ -59,6 +60,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @Operation(summary = "Get the OrderItems from order by order id",
             description = "Retrieve a specific OrderItem within an order by order"
@@ -69,6 +71,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update order status by order id",
             description = "Update order status by order identification number,"

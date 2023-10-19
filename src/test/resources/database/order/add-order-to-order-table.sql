@@ -48,4 +48,5 @@ VALUES (1, 1, 'PENDING', 150, '2023-10-18T23:39:38', '15 Main St, City, Country'
 
 INSERT INTO orders_item (id, order_id, book_id, quantity, price, is_deleted)
 VALUES (1, 1, 1, 5, 150, false),
-       (2, 2, 2, 10, 150, false);
+       (2, 2, 2, 10, 150, false),
+       (3, 2, 1, 15, 150, false);

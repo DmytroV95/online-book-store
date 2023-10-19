@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book> {
-    @Query("FROM Book b JOIN FETCH b.categories c WHERE c.id = :categoryId")
+    @Query("FROM Book b LEFT JOIN FETCH b.categories c WHERE c.id = :categoryId")
     List<Book> findAllByCategoryId(Long categoryId);
 
-    @Query("FROM Book b JOIN FETCH b.categories")
+    @Query("FROM Book b LEFT JOIN FETCH b.categories")
     List<Book> findAllWithCategory(Pageable pageable);
 
-    @Query("FROM Book b JOIN FETCH b.categories WHERE b.id = :id")
+    @Query("FROM Book b LEFT JOIN FETCH b.categories WHERE b.id = :id")
     Optional<Book> findByIdWithCategory(Long id);
 }

@@ -1,10 +1,11 @@
-package com.varukha.onlinebookstore.repository.book;
+package com.varukha.onlinebookstore.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.model.Category;
+import com.varukha.onlinebookstore.repository.book.BookRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;

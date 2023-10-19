@@ -45,6 +45,10 @@ import org.springframework.web.context.WebApplicationContext;
 class ShoppingCartControllerTest {
     protected static MockMvc mockMvc;
 
+    private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA =
+            "database/shoppingcart/set-up-cart-item-and-shopping-cart.sql";
+    private static final String SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA =
+            "database/shoppingcart/remove-shopping-cart-and-cart-item.sql";
     private static final User USER = new User();
     private static final CartItem CART_ITEM = new CartItem();
     private static final Book BOOK = new Book();
@@ -77,8 +81,7 @@ class ShoppingCartControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource(
-                            "database/shoppingcart/set-up-cart-item-and-shopping-cart.sql")
+                    new ClassPathResource(SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA)
             );
         }
     }
@@ -96,8 +99,7 @@ class ShoppingCartControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource(
-                            "database/shoppingcart/remove-shopping-cart-and-cart-item.sql")
+                    new ClassPathResource(SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA)
             );
         }
     }

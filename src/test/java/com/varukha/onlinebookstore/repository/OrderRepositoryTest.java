@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.repository.order;
+package com.varukha.onlinebookstore.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,18 +8,25 @@ import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.model.Order;
 import com.varukha.onlinebookstore.model.OrderItem;
 import com.varukha.onlinebookstore.model.User;
+import com.varukha.onlinebookstore.repository.order.OrderRepository;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import javax.sql.DataSource;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
@@ -41,6 +48,22 @@ class OrderRepositoryTest {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @BeforeAll
+    static void beforeAll(@Autowired DataSource dataSource) {
+        teardown(dataSource);
+    }
+
+    @SneakyThrows
+    static void teardown(DataSource dataSource) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(
+                    connection,
+                    new ClassPathResource("database/order/remove-order-from-order-table.sql")
+            );
+        }
+    }
 
     @BeforeEach
     void setUp() {
@@ -108,6 +131,26 @@ class OrderRepositoryTest {
 
     @Test
     @DisplayName("""
+            Test the 'findOrderById' method to retrieve orders by ID
+            """)
+    @Sql(scripts = SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA,
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA,
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    void findOrderById_ValidOrderId_ReturnOrder() {
+
+        Order actualOrder = orderRepository
+                .findOrderById(VALID_ORDER_1.getId()).orElse(null);
+
+        assertNotNull(actualOrder);
+        assertEquals(VALID_ORDER_1.getId(), actualOrder.getId());
+        assertEquals(VALID_ORDER_1.getOrderDate(), actualOrder.getOrderDate());
+        assertEquals(VALID_ORDER_1.getStatus(), actualOrder.getStatus());
+        assertEquals(VALID_ORDER_1.getTotal(), actualOrder.getTotal());
+    }
+
+    @Test
+    @DisplayName("""
             Test the 'findAllOrders' method to retrieve all orders
             """)
     @Sql(scripts = SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA,
@@ -116,7 +159,7 @@ class OrderRepositoryTest {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllOrders_PageableArgument_ReturnListOfOrders() {
         Pageable pageable = PageRequest.of(0, 10);
-        List<Order> actual = orderRepository.findAllOrders(pageable);
+        List<Order> actual = orderRepository.findAllByUserId(pageable, USER.getId());
         assertNotNull(actual);
         assertEquals(2, actual.size());
         assertEquals(VALID_ORDER_1.getId(), actual.get(0).getId());

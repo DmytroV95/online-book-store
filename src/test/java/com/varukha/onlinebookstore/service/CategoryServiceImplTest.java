@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.category.impl;
+package com.varukha.onlinebookstore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,6 +12,7 @@ import com.varukha.onlinebookstore.exception.EntityNotFoundException;
 import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
+import com.varukha.onlinebookstore.service.category.impl.CategoryServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;

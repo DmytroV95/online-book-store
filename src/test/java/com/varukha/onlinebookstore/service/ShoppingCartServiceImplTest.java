@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.shoppingcart.impl;
+package com.varukha.onlinebookstore.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,6 +23,7 @@ import com.varukha.onlinebookstore.model.ShoppingCart;
 import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.cartitem.CartItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
+import com.varukha.onlinebookstore.service.shoppingcart.impl.ShoppingCartServiceImpl;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
