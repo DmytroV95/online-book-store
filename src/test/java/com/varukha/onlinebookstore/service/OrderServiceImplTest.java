@@ -37,7 +37,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -229,8 +228,8 @@ class OrderServiceImplTest {
         assertEquals(VALID_ORDER_DTO_1, actualOrderDtoList.get(0));
         assertEquals(VALID_ORDER_DTO_2, actualOrderDtoList.get(1));
 
-        assertTrue(actualOrderDtoList.contains(VALID_ORDER_DTO_1)
-                && actualOrderDtoList.contains(VALID_ORDER_DTO_2));
+        assertTrue(actualOrderDtoList.contains(VALID_ORDER_DTO_1));
+        assertTrue(actualOrderDtoList.contains(VALID_ORDER_DTO_2));
         verify(orderRepository).findAllByUserId(pageable, USER.getId());
         verifyNoMoreInteractions(orderRepository, orderMapper);
     }
@@ -252,8 +251,8 @@ class OrderServiceImplTest {
         Set<OrderItemDto> actualOrderItemDtoSet = orderService.getAllOrderItemsByOrderId(orderId);
 
         assertNotNull(actualOrderItemDtoSet);
-        assertTrue(actualOrderItemDtoSet.contains(VALID_ORDER_ITEM_DTO_1)
-                && actualOrderItemDtoSet.contains(VALID_ORDER_ITEM_DTO_2));
+        assertTrue(actualOrderItemDtoSet.contains(VALID_ORDER_ITEM_DTO_1));
+        assertTrue(actualOrderItemDtoSet.contains(VALID_ORDER_ITEM_DTO_2));
         verify(orderRepository).findOrderById(orderId);
         verifyNoMoreInteractions(orderRepository, orderMapper);
     }
@@ -287,25 +286,16 @@ class OrderServiceImplTest {
             """)
     void updateOrderStatus_ValidRequestData_ReturnUpdatedOrderDto() {
         Long orderId = ORDER_TO_UPDATE.getId();
-        when(orderRepository.findById(orderId))
-                .thenReturn(Optional.of(ORDER_TO_UPDATE));
-        ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
-        when(orderRepository.save(orderCaptor.capture()))
-                .thenAnswer(invocation -> {
-                    Order updatedOrder = invocation.getArgument(0);
-                    ORDER_TO_UPDATE.setStatus(updatedOrder.getStatus());
-                    return updatedOrder;
-                });
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(ORDER_TO_UPDATE));
         when(orderMapper.toDto(ORDER_TO_UPDATE)).thenReturn(UPDATED_ORDER_DTO_1);
 
         OrderDto actualOrderDto = orderService.updateOrderStatus(
-                orderId,
-                VALID_UPDATE_STATUS_REQUEST);
+                orderId, VALID_UPDATE_STATUS_REQUEST);
 
         verify(orderRepository).findById(orderId);
         verify(orderRepository).save(ORDER_TO_UPDATE);
         assertEquals(UPDATED_ORDER_DTO_1, actualOrderDto);
+        assertEquals(VALID_UPDATE_STATUS_REQUEST.getStatus(), ORDER_TO_UPDATE.getStatus());
         assertEquals(UPDATED_ORDER_DTO_1.getStatus(), actualOrderDto.getStatus());
-
     }
 }

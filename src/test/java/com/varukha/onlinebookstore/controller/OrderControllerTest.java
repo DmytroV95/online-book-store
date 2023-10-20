@@ -1,5 +1,6 @@
 package com.varukha.onlinebookstore.controller;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +43,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OrderControllerTest {
@@ -51,7 +51,7 @@ class OrderControllerTest {
     private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA =
             "database/order/add-order-to-order-table.sql";
     private static final String SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA =
-            "database/order/remove-order-from-order-table.sql";
+            "database/remove-all-from-database-tables.sql";
 
     private static final CreateOrderRequestDto CREATE_ORDER_REQUEST_DTO =
             new CreateOrderRequestDto();
@@ -255,7 +255,7 @@ class OrderControllerTest {
 
         assertNotNull(actualOrderDto);
         assertNotNull(actualOrderDto.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(NEW_ORDER_DTO_3,
+        assertTrue(reflectionEquals(NEW_ORDER_DTO_3,
                 actualOrderDto,
                 "orderDate"));
     }
@@ -329,7 +329,7 @@ class OrderControllerTest {
         assertNotNull(actualOrderItemDto);
         assertNotNull(actualOrderItemDto.getId());
         assertEquals(VALID_ORDER_ITEM_DTO_3.getId(), actualOrderItemDto.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(VALID_ORDER_ITEM_DTO_3, actualOrderItemDto));
+        assertTrue(reflectionEquals(VALID_ORDER_ITEM_DTO_3, actualOrderItemDto));
     }
 
     @Test

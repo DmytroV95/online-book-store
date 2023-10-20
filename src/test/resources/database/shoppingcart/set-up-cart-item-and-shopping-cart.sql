@@ -22,4 +22,5 @@ INSERT INTO shopping_cart (id ,user_id)
 VALUES (1, 1);
 
 INSERT INTO cart_item (id, book_id, quantity, shopping_cart_id)
-VALUES (1, 1, 1, 1);
+VALUES (1, 1, 1, 1),
+       (2, 1, 5, 1);

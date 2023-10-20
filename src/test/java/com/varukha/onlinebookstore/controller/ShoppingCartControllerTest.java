@@ -1,5 +1,6 @@
 package com.varukha.onlinebookstore.controller;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -24,7 +25,6 @@ import java.sql.SQLException;
 import java.util.Set;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,10 +47,11 @@ class ShoppingCartControllerTest {
 
     private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA =
             "database/shoppingcart/set-up-cart-item-and-shopping-cart.sql";
-    private static final String SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA =
-            "database/shoppingcart/remove-shopping-cart-and-cart-item.sql";
+    private static final String SQL_SCRIPT_CLEAR_DATABASE =
+            "database/remove-all-from-database-tables.sql";
     private static final User USER = new User();
-    private static final CartItem CART_ITEM = new CartItem();
+    private static final CartItem CART_ITEM_1 = new CartItem();
+    private static final CartItem CART_ITEM_2 = new CartItem();
     private static final Book BOOK = new Book();
     private static final Category VALID_CATEGORY_1 = new Category();
     private static final ShoppingCart SHOPPING_CART = new ShoppingCart();
@@ -99,7 +100,7 @@ class ShoppingCartControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource(SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA)
+                    new ClassPathResource(SQL_SCRIPT_CLEAR_DATABASE)
             );
         }
     }
@@ -118,6 +119,7 @@ class ShoppingCartControllerTest {
         VALID_CATEGORY_1.setName("Science Fiction");
         VALID_CATEGORY_1.setDescription("Science Fiction category description");
 
+        BOOK.setId(1L);
         BOOK.setTitle("Sample Book Title 1");
         BOOK.setAuthor("Author 1");
         BOOK.setIsbn("978-1234567891");
@@ -126,7 +128,7 @@ class ShoppingCartControllerTest {
         BOOK.setCoverImage("https://example.com/book-cover1.jpg");
         BOOK.setCategories(Set.of(VALID_CATEGORY_1));
 
-        VALID_CART_ITEM_REQUEST.setBookId(1L);
+        VALID_CART_ITEM_REQUEST.setBookId(BOOK.getId());
         VALID_CART_ITEM_REQUEST.setQuantity(1);
 
         VALID_CART_ITEM_RESPONSE.setId(1L);
@@ -134,14 +136,19 @@ class ShoppingCartControllerTest {
         VALID_CART_ITEM_RESPONSE.setQuantity(VALID_CART_ITEM_REQUEST.getQuantity());
         VALID_CART_ITEM_RESPONSE.setBookTitle(BOOK.getTitle());
 
-        CART_ITEM.setId(1L);
-        CART_ITEM.setShoppingCart(SHOPPING_CART);
-        CART_ITEM.setBook(BOOK);
-        CART_ITEM.setQuantity(1);
+        CART_ITEM_1.setId(1L);
+        CART_ITEM_1.setShoppingCart(SHOPPING_CART);
+        CART_ITEM_1.setBook(BOOK);
+        CART_ITEM_1.setQuantity(1);
+
+        CART_ITEM_2.setId(1L);
+        CART_ITEM_2.setShoppingCart(SHOPPING_CART);
+        CART_ITEM_2.setBook(BOOK);
+        CART_ITEM_2.setQuantity(5);
 
         SHOPPING_CART.setId(1L);
         SHOPPING_CART.setUser(USER);
-        SHOPPING_CART.setCartItems(Set.of());
+        SHOPPING_CART.setCartItems(Set.of(CART_ITEM_1, CART_ITEM_2));
 
         VALID_SHOPPING_CART_DTO.setUserId(1L);
         VALID_SHOPPING_CART_DTO.setCartItems(Set.of(VALID_CART_ITEM_RESPONSE));
@@ -167,14 +174,11 @@ class ShoppingCartControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
-        CartItemDto actual = objectMapper.readValue(
-                result.getResponse().getContentAsString(),
-                CartItemDto.class
+        CartItemDto actualCartItemDto = objectMapper.readValue(result.getResponse()
+                .getContentAsString(), CartItemDto.class
         );
-        assertNotNull(actual);
-        EqualsBuilder.reflectionEquals(
-                VALID_CART_ITEM_RESPONSE,
-                actual);
+        assertNotNull(actualCartItemDto);
+        reflectionEquals(VALID_CART_ITEM_RESPONSE, actualCartItemDto);
     }
 
     @Test
@@ -183,8 +187,8 @@ class ShoppingCartControllerTest {
             Test the 'deleteCartItemById' endpoint to delete
             cart item from shopping cart by valid cart item ID
              """)
-    void deleteCartItemById() throws Exception {
-        mockMvc.perform(delete("/carts/cart-items/" + CART_ITEM.getId())
+    void deleteCartItemById_ValidCartItemId_ResponseStatusNoContent() throws Exception {
+        mockMvc.perform(delete("/carts/cart-items/" + CART_ITEM_1.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -198,7 +202,7 @@ class ShoppingCartControllerTest {
     void update_ValidRequestData_ReturnCartItemDto() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(VALID_UPDATE_REQUEST);
         MvcResult result = mockMvc.perform(put(
-                        "/carts/cart-items/" + CART_ITEM.getId())
+                        "/carts/cart-items/" + CART_ITEM_1.getId())
                         .content(jsonRequest)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -207,6 +211,6 @@ class ShoppingCartControllerTest {
                 .getContentAsString(), CartItemDto.class);
         assertNotNull(actualBookDto);
         assertEquals(VALID_UPDATE_RESPONSE.getQuantity(), actualBookDto.getQuantity());
-        EqualsBuilder.reflectionEquals(VALID_UPDATE_RESPONSE, actualBookDto);
+        reflectionEquals(VALID_UPDATE_RESPONSE, actualBookDto);
     }
 }

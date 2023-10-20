@@ -11,12 +11,12 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "shopping_cart")
 public class ShoppingCart {
     @Id
@@ -27,6 +27,8 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart",
             fetch = FetchType.LAZY)
     private Set<CartItem> cartItems = new HashSet<>();

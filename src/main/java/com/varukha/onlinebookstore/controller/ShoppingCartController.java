@@ -41,7 +41,7 @@ public class ShoppingCartController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Operation(summary = "Get shopping cart by user id",
+    @Operation(summary = "Get user's shopping cart",
             description = "Get shopping cart with all added cart items"
                     + " by user identification number")
     public ShoppingCartDto getShoppingCart() {

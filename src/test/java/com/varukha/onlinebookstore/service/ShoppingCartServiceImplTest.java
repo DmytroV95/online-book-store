@@ -142,10 +142,11 @@ class ShoppingCartServiceImplTest {
             """)
     void createShoppingCartForUser_ValidUserData_ReturnVoid() {
         when(shoppingCartRepository.save(argThat(
-                savedCart -> savedCart.getUser()
-                        .equals(USER))))
+                savedCart -> savedCart.getUser().equals(USER))))
                 .thenReturn(SHOPPING_CART);
+
         shoppingCartService.createShoppingCartForUser(USER);
+
         verify(shoppingCartRepository, times(1))
                 .save(argThat(savedCart -> savedCart.getUser().equals(USER)));
     }
@@ -210,6 +211,7 @@ class ShoppingCartServiceImplTest {
 
         CartItemDto result = shoppingCartService
                 .updateCartItemQuantity(cartItemId, UPDATE_CART_ITEM_REQUEST_DTO);
+
         assertNotNull(result);
         assertEquals(UPDATED_CART_ITEM_RESPONSE_DTO.getQuantity(), result.getQuantity());
     }
@@ -222,7 +224,9 @@ class ShoppingCartServiceImplTest {
     void clearShoppingCart_ExistingUserId_ReturnVoid() {
         when(shoppingCartRepository.findByUserId(anyLong()))
                 .thenReturn(Optional.of(new ShoppingCart()));
+
         shoppingCartService.clearShoppingCart(1L);
+
         verify(shoppingCartRepository).findByUserId(anyLong());
         verify(cartItemRepository).deleteAll(any());
     }

@@ -89,7 +89,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCartRepository
                 .findByUserId(getAuthenticatedUserId())
-                .orElseThrow());
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find shopping cart by user id: " + getAuthenticatedUserId())));
         cartItem.setBook(bookRepository
                 .findById(requestDto.getBookId()).orElseThrow());
         cartItem.setQuantity(requestDto.getQuantity());

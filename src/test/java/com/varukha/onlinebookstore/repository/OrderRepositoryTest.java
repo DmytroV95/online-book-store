@@ -1,5 +1,6 @@
 package com.varukha.onlinebookstore.repository;
 
+import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -35,7 +36,9 @@ class OrderRepositoryTest {
     private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA =
             "classpath:database/order/add-order-to-order-table.sql";
     private static final String SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA =
-            "classpath:database/order/remove-order-from-order-table.sql";
+            "classpath:database/remove-all-from-database-tables.sql";
+    private static final String SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_CLEAR_DATABASE =
+            "database/remove-all-from-database-tables.sql";
     private static final Category BOOK_CATEGORY_1 = new Category();
     private static final Category BOOK_CATEGORY_2 = new Category();
     private static final User USER = new User();
@@ -60,7 +63,7 @@ class OrderRepositoryTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource("database/order/remove-order-from-order-table.sql")
+                    new ClassPathResource(SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_CLEAR_DATABASE)
             );
         }
     }
@@ -143,10 +146,8 @@ class OrderRepositoryTest {
                 .findOrderById(VALID_ORDER_1.getId()).orElse(null);
 
         assertNotNull(actualOrder);
-        assertEquals(VALID_ORDER_1.getId(), actualOrder.getId());
-        assertEquals(VALID_ORDER_1.getOrderDate(), actualOrder.getOrderDate());
-        assertEquals(VALID_ORDER_1.getStatus(), actualOrder.getStatus());
-        assertEquals(VALID_ORDER_1.getTotal(), actualOrder.getTotal());
+        reflectionEquals(VALID_ORDER_1, actualOrder);
+        assertEquals(VALID_ORDER_1, actualOrder);
     }
 
     @Test
