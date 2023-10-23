@@ -1,6 +1,5 @@
 package com.varukha.onlinebookstore.repository;
 
-import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -146,7 +145,6 @@ class OrderRepositoryTest {
                 .findOrderById(VALID_ORDER_1.getId()).orElse(null);
 
         assertNotNull(actualOrder);
-        reflectionEquals(VALID_ORDER_1, actualOrder);
         assertEquals(VALID_ORDER_1, actualOrder);
     }
 

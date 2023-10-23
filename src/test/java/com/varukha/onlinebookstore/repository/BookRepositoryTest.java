@@ -18,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -87,8 +86,8 @@ class BookRepositoryTest {
         List<Book> actual = bookRepository.findAllByCategoryId(categoryId);
         assertNotNull(actual);
         assertEquals(2, actual.size());
-        EqualsBuilder.reflectionEquals(VALID_BOOK_2, actual.get(0));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_3, actual.get(1));
+        assertEquals(VALID_BOOK_2, actual.get(0));
+        assertEquals(VALID_BOOK_3, actual.get(1));
     }
 
     @Test
@@ -105,9 +104,9 @@ class BookRepositoryTest {
         List<Book> actual = bookRepository.findAllWithCategory(pageable);
         assertNotNull(actual);
         assertEquals(3, actual.size());
-        EqualsBuilder.reflectionEquals(VALID_BOOK_1, actual.get(0));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_2, actual.get(1));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_3, actual.get(2));
+        assertEquals(VALID_BOOK_1, actual.get(0));
+        assertEquals(VALID_BOOK_2, actual.get(1));
+        assertEquals(VALID_BOOK_3, actual.get(2));
     }
 
     @Test
@@ -123,6 +122,6 @@ class BookRepositoryTest {
         Book actual = bookRepository.findByIdWithCategory(VALID_BOOK_1.getId())
                 .orElse(null);
         assertNotNull(actual);
-        EqualsBuilder.reflectionEquals(VALID_BOOK_1, actual);
+        assertEquals(VALID_BOOK_1, actual);
     }
 }
