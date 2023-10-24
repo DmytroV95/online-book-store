@@ -49,25 +49,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(order);
     }
 
-    private Order createOrder(User authenticatedUser,
-                              CreateOrderRequestDto orderRequestDto,
-                              Set<OrderItem> orderItems) {
-        Order order = new Order();
-        order.setUser(authenticatedUser);
-        order.setStatus(Order.Status.PENDING);
-        order.setTotal(calculateTotalCartItemsPrice(authenticatedUser.getId()));
-        order.setOrderDate(LocalDateTime.now());
-        order.setShippingAddress(orderRequestDto.getShippingAddress());
-        order.setOrderItems(orderItems);
-        Order savedOrder = orderRepository.save(order);
-        orderItems.forEach(orderItem -> orderItem.setOrder(savedOrder));
-        orderItemRepository.saveAll(orderItems);
-        return savedOrder;
-    }
-
     @Override
     public List<OrderDto> getAll(Pageable pageable) {
-        return orderRepository.findAllOrders(pageable)
+        User authenticatedUser = userService.getAuthenticatedUser();
+        return orderRepository.findAllByUserId(pageable, authenticatedUser.getId())
                 .stream()
                 .map(orderMapper::toDto)
                 .toList();
@@ -101,6 +86,22 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Order "
                         + "not found by id: " + id));
+    }
+
+    private Order createOrder(User authenticatedUser,
+                              CreateOrderRequestDto orderRequestDto,
+                              Set<OrderItem> orderItems) {
+        Order order = new Order();
+        order.setUser(authenticatedUser);
+        order.setStatus(Order.Status.PENDING);
+        order.setTotal(calculateTotalCartItemsPrice(authenticatedUser.getId()));
+        order.setOrderDate(LocalDateTime.now());
+        order.setShippingAddress(orderRequestDto.getShippingAddress());
+        order.setOrderItems(orderItems);
+        Order savedOrder = orderRepository.save(order);
+        orderItems.forEach(orderItem -> orderItem.setOrder(savedOrder));
+        orderItemRepository.saveAll(orderItems);
+        return savedOrder;
     }
 
     private BigDecimal calculateTotalCartItemsPrice(Long userId) {

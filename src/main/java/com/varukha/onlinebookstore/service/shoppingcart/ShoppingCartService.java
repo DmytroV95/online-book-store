@@ -11,7 +11,7 @@ public interface ShoppingCartService {
 
     CartItemDto createCartItem(CreateCartItemRequestDto requestDto);
 
-    ShoppingCartDto getShoppingCartByUserId(Long id);
+    ShoppingCartDto getShoppingCart();
 
     void deleteById(Long id);
 

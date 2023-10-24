@@ -1,5 +1,5 @@
 INSERT INTO book
-    (id, title, author, isbn, price, description, cover_image, is_deleted)
+(id, title, author, isbn, price, description, cover_image, is_deleted)
 VALUES (1,
         'Sample Book Title 1',
         'Author 1',

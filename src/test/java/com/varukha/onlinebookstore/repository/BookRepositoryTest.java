@@ -1,10 +1,11 @@
-package com.varukha.onlinebookstore.repository.book;
+package com.varukha.onlinebookstore.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.model.Category;
+import com.varukha.onlinebookstore.repository.book.BookRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -75,7 +75,7 @@ class BookRepositoryTest {
 
     @Test
     @DisplayName("""
-            Test 'findAllByCategoryId' method to retrieve the books by category ID
+            Test the 'findAllByCategoryId' method to retrieve the books by category ID
             """)
     @Sql(scripts = SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA,
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -86,32 +86,32 @@ class BookRepositoryTest {
         List<Book> actual = bookRepository.findAllByCategoryId(categoryId);
         assertNotNull(actual);
         assertEquals(2, actual.size());
-        EqualsBuilder.reflectionEquals(VALID_BOOK_2, actual.get(0));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_3, actual.get(1));
+        assertEquals(VALID_BOOK_2, actual.get(0));
+        assertEquals(VALID_BOOK_3, actual.get(1));
     }
 
     @Test
     @DisplayName("""
-            Test 'findAllWithCategory' method to retrieve all
+            Test the 'findAllWithCategory' method to retrieve all
             books and book category information
             """)
     @Sql(scripts = SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA,
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = SQL_SCRIPT_AFTER_TEST_METHOD_EXECUTION_REMOVE_DATA,
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    void findAllWithCategory_() {
+    void findAllWithCategory_Pageable_ReturnListOfBooks() {
         Pageable pageable = PageRequest.of(0, 10);
         List<Book> actual = bookRepository.findAllWithCategory(pageable);
         assertNotNull(actual);
         assertEquals(3, actual.size());
-        EqualsBuilder.reflectionEquals(VALID_BOOK_1, actual.get(0));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_2, actual.get(1));
-        EqualsBuilder.reflectionEquals(VALID_BOOK_3, actual.get(2));
+        assertEquals(VALID_BOOK_1, actual.get(0));
+        assertEquals(VALID_BOOK_2, actual.get(1));
+        assertEquals(VALID_BOOK_3, actual.get(2));
     }
 
     @Test
     @DisplayName("""
-            Test 'findByIdWithCategory' method to retrieve book by ID
+            Test the 'findByIdWithCategory' method to retrieve book by ID
             with book category information
             """)
     @Sql(scripts = SQL_SCRIPT_BEFORE_TEST_METHOD_EXECUTION_ADD_DATA,
@@ -122,6 +122,6 @@ class BookRepositoryTest {
         Book actual = bookRepository.findByIdWithCategory(VALID_BOOK_1.getId())
                 .orElse(null);
         assertNotNull(actual);
-        EqualsBuilder.reflectionEquals(VALID_BOOK_1, actual);
+        assertEquals(VALID_BOOK_1, actual);
     }
 }

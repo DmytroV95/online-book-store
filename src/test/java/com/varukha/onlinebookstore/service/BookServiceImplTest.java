@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.book.impl;
+package com.varukha.onlinebookstore.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +22,7 @@ import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
+import com.varukha.onlinebookstore.service.book.impl.BookServiceImpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -236,7 +237,7 @@ class BookServiceImplTest {
             Test the 'getById' method with valid request parameters
             to retrieve a book by its ID
             """)
-    void getById_ValidBookId_ShouldReturnValidBookData() {
+    void getById_ValidBookId_ReturnValidBookData() {
         Long bookId = VALID_BOOK_1.getId();
         when(bookRepository.findByIdWithCategory(bookId))
                 .thenReturn(Optional.of(VALID_BOOK_1));

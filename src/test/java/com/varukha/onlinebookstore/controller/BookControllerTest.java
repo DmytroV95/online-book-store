@@ -45,6 +45,8 @@ import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 class BookControllerTest {
     protected static MockMvc mockMvc;
 
+    private static final String SQL_SCRIPT_CLEAR_DATABASE =
+            "database/remove-all-from-database-tables.sql";
     private static final Category VALID_CATEGORY_1
             = new Category();
     private static final Category VALID_CATEGORY_2
@@ -61,7 +63,6 @@ class BookControllerTest {
             = new CreateBookRequestDto();
     private static final CreateBookRequestDto REQUEST_DTO_NEW_BOOK_4
             = new CreateBookRequestDto();
-
     private static final BookDto BOOK_1_DTO = new BookDto();
     private static final BookDto BOOK_2_DTO = new BookDto();
     private static final BookDto BOOK_3_DTO = new BookDto();
@@ -103,8 +104,7 @@ class BookControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource(
-                            "database/book/remove-books-and-categories-from-tables.sql")
+                    new ClassPathResource(SQL_SCRIPT_CLEAR_DATABASE)
             );
         }
     }

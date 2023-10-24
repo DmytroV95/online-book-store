@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Order management",
@@ -30,6 +32,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Place an order",
             description = "Place an order, to purchase the books in user's shopping cart")
@@ -38,6 +41,7 @@ public class OrderController {
     }
 
     @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @Operation(summary = "Get an order history",
             description = "Get an order history, to track user's past purchases")
@@ -46,6 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @Operation(summary = "Get all OrderItems in user's order",
             description = "Retrieve all OrderItems for a specific order by order"
@@ -55,6 +60,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     @Operation(summary = "Get the OrderItems from order by order id",
             description = "Retrieve a specific OrderItem within an order by order"
@@ -65,6 +71,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update order status by order id",
             description = "Update order status by order identification number,"
