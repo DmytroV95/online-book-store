@@ -2,8 +2,7 @@
 ####
 ### Glad to introduce the Online Book Store application
 This application is designed to power an online book store, allowing users to browse, search for, and purchase books. It also provides administrative functionalities for managing books, categories, and orders.
-####
-I appreciate your time, so you can watch the [project presentation](#content).
+
 
 ## Content
 
