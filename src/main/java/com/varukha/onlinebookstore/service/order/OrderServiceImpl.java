@@ -13,7 +13,6 @@ import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.order.OrderRepository;
 import com.varukha.onlinebookstore.repository.orderitem.OrderItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
-import com.varukha.onlinebookstore.service.order.OrderService;
 import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartService;
 import com.varukha.onlinebookstore.service.user.UserService;
 import java.math.BigDecimal;
