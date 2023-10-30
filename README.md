@@ -1,6 +1,6 @@
-# Online Book Store
+# Book Treasure
 ####
-### Glad to introduce the Online Book Store application
+### Glad to introduce the Book Treasure application
 This application is designed to power an online book store, allowing users to browse, search for, and purchase books. It also provides administrative functionalities for managing books, categories, and orders.
 
 
@@ -349,7 +349,7 @@ The OrderItem Controller provides access to order item information, allowing use
       ```
 
 ## Security
-In this section, we'll cover the security requirements and features of Online Book Store Application.
+In this section, we'll cover the security requirements and features of Book Treasure Application.
 - [Back to application content](#content)
 ####
 
@@ -544,7 +544,7 @@ If API endpoints require authorization, just make log in operation to get the au
 ### Explore Endpoints:
 
 Once you access the Swagger UI, you will be presented with a user-friendly interface. Here, you can explore a list of available API endpoints, including their descriptions and supported HTTP methods (e.g., GET, POST, PUT, DELETE).
-Swagger UI offers an interactive way to understand, test, and work with ***Online Book Store*** API. Take your time to explore the available endpoints and make test requests as needed.
+Swagger UI offers an interactive way to understand, test, and work with ***Book Treasure*** API. Take your time to explore the available endpoints and make test requests as needed.
 
 1. ***Select an Endpoint:***
    To get detailed information about a specific endpoint, click on it in the Swagger UI. This will expand the endpoint and display details such as request parameters, request body models (if applicable), and example responses.

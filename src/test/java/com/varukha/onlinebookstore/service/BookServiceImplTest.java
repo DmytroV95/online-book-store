@@ -22,7 +22,7 @@ import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
-import com.varukha.onlinebookstore.service.book.impl.BookServiceImpl;
+import com.varukha.onlinebookstore.service.book.BookServiceImpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;

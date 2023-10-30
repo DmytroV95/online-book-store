@@ -1,11 +1,10 @@
-package com.varukha.onlinebookstore.service.category.impl;
+package com.varukha.onlinebookstore.service.category;
 
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
 import com.varukha.onlinebookstore.exception.EntityNotFoundException;
 import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
-import com.varukha.onlinebookstore.service.category.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

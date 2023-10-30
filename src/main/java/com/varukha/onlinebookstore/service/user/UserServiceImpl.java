@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.user.impl;
+package com.varukha.onlinebookstore.service.user;
 
 import static com.varukha.onlinebookstore.model.Role.RoleName.ROLE_USER;
 
@@ -11,7 +11,6 @@ import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.role.RoleRepository;
 import com.varukha.onlinebookstore.repository.user.UserRepository;
 import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartService;
-import com.varukha.onlinebookstore.service.user.UserService;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;

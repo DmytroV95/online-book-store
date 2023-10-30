@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.book.impl;
+package com.varukha.onlinebookstore.service.book;
 
 import com.varukha.onlinebookstore.dto.book.request.BookSearchParametersDto;
 import com.varukha.onlinebookstore.dto.book.request.CreateBookRequestDto;
@@ -9,7 +9,6 @@ import com.varukha.onlinebookstore.mapper.BookMapper;
 import com.varukha.onlinebookstore.model.Book;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.book.BookSpecificationBuilder;
-import com.varukha.onlinebookstore.service.book.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

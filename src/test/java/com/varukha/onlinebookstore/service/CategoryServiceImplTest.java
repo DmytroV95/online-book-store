@@ -12,7 +12,7 @@ import com.varukha.onlinebookstore.exception.EntityNotFoundException;
 import com.varukha.onlinebookstore.mapper.CategoryMapper;
 import com.varukha.onlinebookstore.model.Category;
 import com.varukha.onlinebookstore.repository.category.CategoryRepository;
-import com.varukha.onlinebookstore.service.category.impl.CategoryServiceImpl;
+import com.varukha.onlinebookstore.service.category.CategoryServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;

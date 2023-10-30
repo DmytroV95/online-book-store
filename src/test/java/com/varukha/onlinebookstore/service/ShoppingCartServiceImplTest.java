@@ -23,7 +23,7 @@ import com.varukha.onlinebookstore.model.ShoppingCart;
 import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.cartitem.CartItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
-import com.varukha.onlinebookstore.service.shoppingcart.impl.ShoppingCartServiceImpl;
+import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartServiceImpl;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.shoppingcart.impl;
+package com.varukha.onlinebookstore.service.shoppingcart;
 
 import com.varukha.onlinebookstore.dto.cartitem.CartItemDto;
 import com.varukha.onlinebookstore.dto.cartitem.CreateCartItemRequestDto;
@@ -13,7 +13,6 @@ import com.varukha.onlinebookstore.model.User;
 import com.varukha.onlinebookstore.repository.book.BookRepository;
 import com.varukha.onlinebookstore.repository.cartitem.CartItemRepository;
 import com.varukha.onlinebookstore.repository.shoppingcart.ShoppingCartRepository;
-import com.varukha.onlinebookstore.service.shoppingcart.ShoppingCartService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
