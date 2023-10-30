@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.order.impl;
+package com.varukha.onlinebookstore.service.order;
 
 import com.varukha.onlinebookstore.dto.order.CreateOrderRequestDto;
 import com.varukha.onlinebookstore.dto.order.OrderDto;

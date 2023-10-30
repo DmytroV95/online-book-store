@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.shoppingcart.impl;
+package com.varukha.onlinebookstore.service.shoppingcart;
 
 import com.varukha.onlinebookstore.dto.cartitem.CartItemDto;
 import com.varukha.onlinebookstore.dto.cartitem.CreateCartItemRequestDto;

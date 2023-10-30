@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.category.impl;
+package com.varukha.onlinebookstore.service.category;
 
 import com.varukha.onlinebookstore.dto.category.CategoryDto;
 import com.varukha.onlinebookstore.exception.EntityNotFoundException;

@@ -1,4 +1,4 @@
-package com.varukha.onlinebookstore.service.user.impl;
+package com.varukha.onlinebookstore.service.user;
 
 import static com.varukha.onlinebookstore.model.Role.RoleName.ROLE_USER;
 
